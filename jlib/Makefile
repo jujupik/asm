@@ -60,6 +60,7 @@ SRC =	ft_atoi.c \
 		ft_putstr_fd.c \
 		ft_puttab.c \
 		converter.c \
+		converter_d.c \
 		converter2.c \
 		converter3.c \
 		handle_converter.c \
@@ -69,6 +70,7 @@ SRC =	ft_atoi.c \
 		t_flag_data.c \
 		flag.c \
 		flag2.c \
+		flag3.c \
 		handle_flag.c \
 		ft_str_fill.c \
 		ft_str_replace.c \
@@ -114,6 +116,9 @@ SRC =	ft_atoi.c \
 		jlib_chain_edit.c \
 		t_address.c \
 		t_address_print.c \
+		ft_delstr.c \
+		ft_isonlycompose.c \
+		ft_convert_int_str.c \
 		jlib_vector.c
 
 ##Transform and place every .o from SRC

@@ -6,7 +6,7 @@
 /*   By: jrouchon <jrouchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 17:40:05 by jrouchon          #+#    #+#             */
-/*   Updated: 2020/02/04 14:21:20 by jrouchon         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:00:34 by jrouchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct		s_flag_data
 	BOOL	plus;
 	BOOL	space;
 	BOOL	point;
+	BOOL	hat;
 	BOOL	wildcard1;
 	BOOL	wildcard2;
 	int		padding;
@@ -83,6 +84,7 @@ size_t				flag_plus(t_flag_data *data, char *cmd, int i);
 size_t				flag_space(t_flag_data *data, char *cmd, int i);
 size_t				flag_point(t_flag_data *data, char *cmd, int i);
 size_t				flag_digit(t_flag_data *data, char *cmd, int i);
+size_t				flag_hat(t_flag_data *data, char *cmd, int i);
 size_t				flag_l(t_flag_data *data, char *cmd, int i);
 size_t				flag_h(t_flag_data *data, char *cmd, int i);
 size_t				flag_wildcard(t_flag_data *data, char *cmd, int i);

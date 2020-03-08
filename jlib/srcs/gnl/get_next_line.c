@@ -6,7 +6,7 @@
 /*   By: jrouchon <jrouchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:31:51 by jrouchon          #+#    #+#             */
-/*   Updated: 2020/03/08 14:22:16 by jrouchon         ###   ########.fr       */
+/*   Updated: 2020/03/08 18:02:06 by jrouchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,6 @@ void			close_fd(int fd)
 	if (g_saved[fd] != NULL)
 		free(g_saved[fd]);
 	g_saved[fd] = NULL;
-}
-
-BOOL			is_only_compose(char *src, char c, size_t len)
-{
-	size_t		i;
-
-	i = 0;
-	while (i < len)
-	{
-		if (src[i] != c)
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
 }
 
 static int		get_next_line_result(char **line, char **saved)
@@ -78,7 +64,7 @@ int				get_next_line(int fd, char **line)
 			break ;
 		}
 		buff[result] = '\0';
-		if (is_only_compose(buff, '\0', BUFF_SIZE) == TRUE)
+		if (is_only_compose(buff, '\0') == TRUE)
 			return (handle_quit_get_next_line(&(g_saved[fd]), line));
 		tmp = g_saved[fd];
 		g_saved[fd] = ft_strjoin(tmp, buff);

@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_fill.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrouchon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jrouchon <jrouchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:53:22 by jrouchon          #+#    #+#             */
-/*   Updated: 2020/01/27 16:53:24 by jrouchon         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:52:57 by jrouchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "jlib.h"
 
-char	*ft_str_fill(char *str, char c, int i)
+void		ft_str_fill(char *str, char c, size_t size)
 {
-	str[i] = '\0';
-	i--;
-	while (i >= 0)
+	size_t i;
+
+	i = 0;
+	while (i < size)
 	{
 		str[i] = c;
-		i--;
+		i++;
 	}
-	return (str);
+	str[i] = '\0';
 }

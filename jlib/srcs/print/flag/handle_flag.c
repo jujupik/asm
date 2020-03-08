@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_flag.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrouchon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jrouchon <jrouchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/26 17:04:01 by jrouchon          #+#    #+#             */
-/*   Updated: 2020/01/26 17:04:03 by jrouchon         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:20:52 by jrouchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	create_flag_funct_tab(t_flag_funct *tab)
 	tab['l'] = flag_l;
 	tab['h'] = flag_h;
 	tab['*'] = flag_wildcard;
+	tab['^'] = flag_hat;
 }
 
 size_t	handle_flag(t_flag_data *data, char *cmd, size_t i)

@@ -6,7 +6,7 @@
 /*   By: jrouchon <jrouchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 17:39:21 by jrouchon          #+#    #+#             */
-/*   Updated: 2020/03/08 13:58:53 by jrouchon         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:53:46 by jrouchon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,17 @@ void				ft_str_replace_back(char **s1, char *s2);
 void				ft_target_strncat(char *s1, char *s2,
 						size_t start, size_t len);
 void				ft_str_toupper(char *str);
-char				*ft_str_fill(char	*str, char c, int i);
+void				ft_str_fill(char *str, char c, size_t size);
 char				*ft_strnew_c(size_t len, char c);
 char				*ft_itoa_base(long long n, int base);
 char				*ft_uitoa_base(unsigned long long n, int base);
 char				*ft_uitoa(unsigned long long n);
 void				ft_str_replace_front(char *s2, char **s1);
 void				ft_str_replace_back(char **s1, char *s2);
+void				ft_delchar(char **str, char *to_remove);
+BOOL				is_only_compose(char *src, char c);
+BOOL				is_str_only_compose(char *src, char *delim);
+char				*convert_int_str(long long value, size_t len);
+void				write_int(long long value, size_t len);
 
 #endif
