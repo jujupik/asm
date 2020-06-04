@@ -14,6 +14,7 @@
 # define JLIB_BASICS_H
 
 int					get_next_line(int fd, char **line);
+int					open_fd(char* path, int mode);
 void				close_fd(int fd);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t len);

@@ -12,7 +12,7 @@
 
 #include "jlib.h"
 
-char* g_saved[MAX_FD];
+char	*g_saved[MAX_FD];
 
 int			open_fd(char* path, int mode)
 {
@@ -31,7 +31,7 @@ void			close_fd(int fd)
 	_close(fd);
 }
 
-static int		get_next_line_result(char** line, char** saved)
+static int		get_next_line_result(char **line, char **saved)
 {
 	if (*line != NULL)
 		free(*line);
@@ -44,10 +44,10 @@ static int		get_next_line_result(char** line, char** saved)
 	return (ft_strlen(*line) + ft_strlen(*saved));
 }
 
-int				get_next_line(int fd, char** line)
+int				get_next_line(int fd, char **line)
 {
 	int			result;
-	char* tmp;
+	char		*tmp;
 	char		buff[BUFF_SIZE + 1];
 
 	if (fd == 1 || fd == 2 || fd >= MAX_FD)

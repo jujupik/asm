@@ -52,6 +52,8 @@ void		list_push_back(t_list *list, void *to_add)
 {
 	t_vector2	coord;
 
+	if (list == NULL)
+		error_exit(1, "List given in list_push_back = NULL");
 	if (list->size >= list->max_size)
 	{
 		malloc_list_tab(list);

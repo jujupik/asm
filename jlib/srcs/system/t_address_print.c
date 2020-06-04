@@ -14,8 +14,6 @@
 
 void	print_address(t_address *address)
 {
-	size_t	i;
-
 	ft_printf("Malloc num %u : %p", address->index, address->ptr);
 	if (address->size < 3)
 	{
@@ -24,10 +22,4 @@ void	print_address(t_address *address)
 	}
 	ft_printf(" -> \n");
 	ft_printf("Leaks data : [%s]\n", address->ptr);
-	i = address->size - 2;
-	while (i >= 2)
-	{
-		ft_printf("				%s\n", address->strings[i]);
-		i--;
-	}
 }

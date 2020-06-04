@@ -16,6 +16,7 @@ t_flag_data	create_flag_data(void)
 {
 	t_flag_data	result;
 
+	result.hat = FALSE;
 	result.sharp = FALSE;
 	result.zero = FALSE;
 	result.minus = FALSE;

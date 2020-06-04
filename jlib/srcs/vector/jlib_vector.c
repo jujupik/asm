@@ -48,5 +48,5 @@ BOOL		is_t_vector2_equal(t_vector2 a, t_vector2 b)
 
 float		distance_vector2(t_vector2 a, t_vector2 b)
 {
-	return (sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2)));
+	return (sqrt(pow((double)(b.x - a.x), 2) + pow((double)(b.y - a.y), 2)));
 }

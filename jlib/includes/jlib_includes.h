@@ -16,12 +16,18 @@
 # include <stdio.h>
 # include <limits.h>
 # include <float.h>
-# include <unistd.h>
+# include <io.h>
+# include <stdlib.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <errno.h>
+# include <share.h>
+# include <malloc.h>
 # include <math.h>
 # include <stdlib.h>
 # include <stdarg.h>
-# include <execinfo.h>
-# include <dlfcn.h>
+//# include <execinfo.h>
+//# include <dlfcn.h>
 
 #endif

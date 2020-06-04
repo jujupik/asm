@@ -63,7 +63,7 @@ static void				converter_d_hat(t_data *data, t_flag_data *flag_data)
 	size_t	len;
 	size_t	i;
 
-	i = handle_lh(data, flag_data);
+	i = (int)(handle_lh(data, flag_data));
 	if (flag_data->h_value == 2)
 		len = 1;
 	else if (flag_data->h_value == 1)

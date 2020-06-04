@@ -50,10 +50,10 @@ void		free_address(t_address *to_free)
 	free(to_free);
 }
 
-void		address_get_trace(t_address *address)
+/*void		address_get_trace(t_address *address)
 {
 	void	*array[10];
 
 	address->size = backtrace(array, 10);
 	address->strings = backtrace_symbols(array, address->size);
-}
+}*/

@@ -25,7 +25,7 @@ typedef struct		s_data
 	int			len;
 	int			fd;
 	char		*s_buffer;
-	char		buffer[PRINTF_BUFFER_SIZE];
+	char		buffer[PRINTF_BUFFER_SIZE + 1];
 	size_t		size;
 }					t_data;
 
