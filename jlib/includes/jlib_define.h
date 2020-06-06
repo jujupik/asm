@@ -23,4 +23,10 @@
 
 # define PRINTF_BUFFER_SIZE 400
 # define MAX_FD 10000
+
+# define FILE_STATE char
+# define FILE_EXIST 1
+# define FILE_NO_EXIST 0
+# define FILE_ERROR -1
+
 #endif

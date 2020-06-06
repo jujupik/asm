@@ -56,11 +56,13 @@
 
 typedef char	t_arg_type;
 
-#define T_REG					1
-#define T_DIR					2
-#define T_IND					4
-#define T_LAB					8
+#define PARAM_TYPE char
 
+#define T_REG					1
+#define T_DIR					10
+#define T_IND					4
+#define T_LAB					2
+#define T_ERROR					-1
 /*
 **
 */
@@ -68,5 +70,17 @@ typedef char	t_arg_type;
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3
+
+typedef struct s_base_op
+{
+	char *name;
+	char nb_token;
+	char availible_token[3];
+	char id;
+	int delay;
+	char* msg;
+	char carry_modifier;
+	BOOL octal_size_modifier;
+}				t_base_op;
 
 #endif

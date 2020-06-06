@@ -38,7 +38,7 @@ BOOL analyse_variable(int fd, char *name, char **variable, char **variable_cmd)
 	return (TRUE);
 }
 
-t_header parse_header(int fd)
+t_header* parse_header(int fd)
 {
 	char *name;
 	char *name_cmd;
@@ -55,5 +55,5 @@ t_header parse_header(int fd)
 		error_exit(1, "Bad comment command");
 	free(comment_cmd);
 	free(name_cmd);
-	return (create_header(name, comment, 0));
+	return (malloc_header(name, comment, 0));
 }

@@ -38,7 +38,7 @@ char	*ft_itoa_base(long long n, int base)
 
 	if (base <= 1 || base > 16)
 		return (NULL);
-	if (n == LLONG_MIN)
+	if (n == LLONG_MIN && base == 10)
 		return (ft_strdup("-9223372036854775808"));
 	i = 0;
 	l = nbr_len(n, base);
