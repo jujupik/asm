@@ -23,7 +23,7 @@ vpath %.c $(foreach dir, $(SRC_DIR), $(dir):)
 SRC = 		$(foreach dir, $(SRC_DIR), $(foreach file, $(wildcard $(dir)/*.c), $(notdir $(file))))
 
 ##List every lib to link
-LIB = jlib
+LIB = jlib m dl
 
 ##Transform and place every .o from SRC
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
@@ -33,7 +33,7 @@ OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 ##
 
 ##Basics flags
-CFLAGS =	-Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS =	-Wall -Werror -Wextra
 
 ##Create the flags to includes every .h needed by this program
 IFLAGS =	$(foreach dir, $(INC_DIR), -I$(dir))

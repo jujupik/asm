@@ -36,10 +36,8 @@ int		open_output_file(char *path)
 	return (open_fd(output_path, O_WRONLY | O_CREAT | O_TRUNC));
 }
 
-int main()
+int main(int argc, char**argv)
 {
-	int argc = 2;
-	char* argv[2] = { "asm", "ressources/champ/debile/live.s" };
 	int input_fd = 0;
 	int output_fd = 0;
 	char *path;
@@ -57,10 +55,9 @@ int main()
 	player->header = parse_header(input_fd);
 	if (parse_content(player, input_fd) == FALSE)
 		error_exit(1, "Error in file : Label inexistant");
-	//output_fd = open_output_file(path);
-	print_binary_player(player);
-	ft_printf("\n\n");
-	//close_fd(output_fd);
+	output_fd = open_output_file(path);
+	save_player(output_fd, player);
+	close_fd(output_fd);
 	close_fd(input_fd);
 	return (0);
 }

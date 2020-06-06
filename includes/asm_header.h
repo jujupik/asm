@@ -17,7 +17,7 @@ void destroy_header(t_header to_destroy);
 void free_header(t_header *to_free);
 void print_header(t_header* header);
 void print_binary_header(t_header *header);
-void saved_header(int fd, t_header *header);
+void save_header(int fd, t_header *header);
 
 typedef struct s_action_param
 {
@@ -46,7 +46,7 @@ void destroy_operation(t_operation to_destroy);
 void free_operation(t_operation* to_free);
 void print_operation(t_operation* to_print);
 void print_binary_operation(t_operation* to_print);
-void save_operation(int fd, t_operation* ope, t_list* list_label);
+void save_operation(int fd, t_operation* ope);
 
 typedef struct s_label
 {
@@ -73,6 +73,6 @@ void destroy_player(t_player to_destroy);
 void free_player(t_player* to_free);
 void print_player(t_player* player);
 void print_binary_player(t_player* player);
-void save_player(t_player* player);
+void save_player(int output_fd, t_player* player);
 
 #endif

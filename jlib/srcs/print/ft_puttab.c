@@ -21,7 +21,7 @@ void	ft_puttab(char **tab)
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		ft_printf("[%d] = %s\n", i, tab[i]);
+		ft_printf("[%d] = {%s}\n", i, tab[i]);
 		i++;
 	}
 }

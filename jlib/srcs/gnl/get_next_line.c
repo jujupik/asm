@@ -17,19 +17,12 @@ char	*g_saved[MAX_FD];
 int			open_fd(char* path, int mode)
 {
 	int fd;
-	int error = _sopen_s(&fd, path, mode, _SH_DENYNO, _S_IREAD | _S_IWRITE); // A remplacer par fd = open(path, mode);
-	if (error == EACCES)
-		error_exit(error, "Le chemin d'acces donne est un repertoire, ou le fichier est en lecture seule, mais une operation de type \" ouvert en ecriture \" a ete tentee.");
-	if (error == EEXIST)
-		error_exit(error, "Les indicateurs _O_CREAT et _O_EXCL ont ete specifies, mais le nom de fichier existe deja.");
-	if (error == EINVAL)
-		error_exit(error, "Argument Oflag, shflagou PMODE non valide, ou PFH ou filename etait un pointeur null.");
-	if (error == EMFILE)
-		error_exit(error, "Plus aucun descripteur de fichier disponible.");
-	if (error == ENOENT)
-		error_exit(error, "Fichier ou chemin d’acces introuvable.");
+	fd = open(path, mode, 777);
 	if (g_saved[fd] != NULL)
+	{
 		free(g_saved[fd]);
+		g_saved[fd] = NULL;
+	}
 	g_saved[fd] = ft_strnew(0);
 	return (fd);
 }
@@ -39,9 +32,12 @@ void			close_fd(int fd)
 	if (fd < 0 || fd >= MAX_FD)
 		error_exit(fd, "Invalid fd to close");
 	if (g_saved[fd] != NULL)
+	{
 		free(g_saved[fd]);
+		g_saved[fd] = NULL;
+	}
 	g_saved[fd] = NULL;
-	_close(fd);
+	close(fd);
 }
 
 static int		get_next_line_result(char **line, char **saved)
@@ -70,7 +66,7 @@ int				get_next_line(int fd, char **line)
 	result = 1;
 	while (ft_strcchr(g_saved[fd], '\n') == FALSE && result > 0)
 	{
-		result = _read(fd, buff, BUFF_SIZE);
+		result = read(fd, buff, BUFF_SIZE);
 		buff[result] = '\0';
 		if (result > 0)
 		{

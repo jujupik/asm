@@ -5,7 +5,7 @@ FILE_STATE check_file_exist(char* path)
 {
 	int access_value;
 
-	access_value = _access(path, 0);
+	access_value = access(path, 0);
 	if (access_value == 0)
 		return (FILE_EXIST);
 	else if (access_value == ENOENT)

@@ -36,9 +36,6 @@ t_address	*malloc_address(size_t p_index, void *p_ptr)
 
 void		destroy_address(t_address to_destroy)
 {
-	size_t	i;
-
-	i = 0;
 	if (to_destroy.strings != NULL)
 		free(to_destroy.strings);
 }
@@ -50,10 +47,10 @@ void		free_address(t_address *to_free)
 	free(to_free);
 }
 
-/*void		address_get_trace(t_address *address)
+void		address_get_trace(t_address *address)
 {
 	void	*array[10];
 
 	address->size = backtrace(array, 10);
 	address->strings = backtrace_symbols(array, address->size);
-}*/
+}

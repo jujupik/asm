@@ -14,7 +14,7 @@ t_operation create_operation(t_base_op* p_action, t_action_param* p_param)
 		result.params[i] = p_param[i];
 		i++;
 	}
-	
+
 	return (result);
 }
 
@@ -88,11 +88,9 @@ void print_binary_operation(t_operation* to_print)
 	}
 }
 
-void save_operation(int fd, t_operation* ope, t_list* list_label)
+void save_operation(int fd, t_operation* ope)
 {
-	t_label* label;
 	size_t i;
-	int value;
 
 	ft_fprintf(fd, "%^hhd", ope->action->id);
 	if (ope->encodage != 0)

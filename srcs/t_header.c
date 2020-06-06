@@ -85,7 +85,7 @@ static void print_parameter(int fd, char *data, size_t len)
 	}
 }
 
-void saved_header(int fd, t_header *header)
+void save_header(int fd, t_header *header)
 {
 	ft_fprintf(fd, "%^d", header->magic_num);
 	print_parameter(fd, header->name, PROG_NAME_LENGTH);

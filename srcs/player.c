@@ -22,11 +22,21 @@ t_player* malloc_player()
 	return (result);
 }
 
+void call_free_operation(void *ptr)
+{
+	free_operation(ptr);
+}
+
+void call_free_label(void *ptr)
+{
+	free_label(ptr);
+}
+
 void destroy_player(t_player to_destroy)
 {
 	free_header(to_destroy.header);
-	free_list(to_destroy.ope_list, free_operation);
-	free_list(to_destroy.label_list, free_label);
+	free_list(to_destroy.ope_list, call_free_operation);
+	free_list(to_destroy.label_list, call_free_label);
 }
 
 void free_player(t_player* to_free)
@@ -66,7 +76,17 @@ void print_binary_player(t_player* player)
 	}
 }
 
-void save_player(t_player* player)
+void save_player(int output_fd, t_player* player)
 {
+	size_t i;
+	t_operation* ope;
 
+	save_header(output_fd, player->header);
+	i = 0;
+	while (i < player->ope_list->size)
+	{
+		ope = list_at(player->ope_list, i);
+		save_operation(output_fd, ope);
+		i++;
+	}
 }

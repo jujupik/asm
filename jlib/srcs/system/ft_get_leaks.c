@@ -12,7 +12,6 @@
 
 #include "jlib.h"
 
-/*
 BOOL g_debug = FALSE;
 size_t	g_ptr_index = 0;
 t_chain *g_ptr_chain = NULL;
@@ -79,4 +78,3 @@ void	ft_get_leaks(char *msg)
 	ft_printf("Over %u malloc done : %u leaked\n", g_ptr_index, len);
 	ft_printf("%s\n", msg);
 }
-*/

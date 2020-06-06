@@ -26,7 +26,7 @@ t_data	create_data(char *s_buffer, int fd)
 void	print_buffer(t_data *data)
 {
 	if (data->s_buffer == NULL)
-		_write(data->fd, data->buffer, data->size);
+		write(data->fd, data->buffer, data->size);
 	else
 		ft_target_strncat(data->s_buffer, data->buffer,
 			data->len - data->size, data->size);

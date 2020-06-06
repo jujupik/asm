@@ -18,9 +18,12 @@ BOOL analyse_variable(int fd, char *name, char **variable, char **variable_cmd)
 	(*variable) = NULL;
 	(*variable_cmd) = NULL;
 	tab = NULL;
-	if (get_next_line(fd, &(*variable)) <= 0)
-		return (free_variable(tab, (*variable), (*variable_cmd)));
-	ft_str_replace_back(&(*variable), "\n");
+	while ((*variable) == NULL || (*variable)[0] == '#')
+	{
+		if (get_next_line(fd, variable) <= 0)
+			return (free_variable(tab, (*variable), (*variable_cmd)));
+	}
+	ft_str_replace_back(variable, "\n");
 	tab = ft_strsplit((*variable), '\"');
 	free((*variable));
 	if (ft_tab_len(tab) == 1 || ft_tab_len(tab) > 3 || (ft_tab_len(tab) == 3 &&

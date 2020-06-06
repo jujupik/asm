@@ -12,10 +12,12 @@
 
 #include "jlib.h"
 
-int			ft_tab_len(char **tab)
+size_t			ft_tab_len(char **tab)
 {
-	int		i;
+	size_t		i;
 
+	if (tab == NULL)
+		return (0);
 	i = 0;
 	while (tab[i] != NULL)
 		i++;
@@ -42,7 +44,7 @@ char		**ft_tab_new(size_t len)
 char		**ft_tabdup(char **tab)
 {
 	size_t	i;
-	int		len;
+	size_t	len;
 	char	**result;
 
 	len = ft_tab_len(tab);

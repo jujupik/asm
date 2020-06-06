@@ -18,7 +18,9 @@ vpath %.c $(foreach dir, $(SRC_DIR), $(dir):)
 
 ##List every .c found inside SRC_DIR
 ##SRC = $(foreach dir, $(SRC_DIR), $(foreach file, $(wildcard $(dir)/*.c), $(notdir $(file))))
-SRC =	ft_atoi.c \
+SRC =	\
+		ft_atoi.c \
+		ft_convert_int_str.c \
 		ft_itoa_base.c \
 		ft_uitoa_base.c \
 		ft_swap_float.c \
@@ -36,9 +38,13 @@ SRC =	ft_atoi.c \
 		ft_isascii.c \
 		ft_isdigit.c \
 		ft_isnum.c \
+		ft_isonlycompose.c \
 		ft_isprint.c \
-		jlib_list.c \
+		jlib_chain_acces.c \
+		jlib_chain.c \
+		jlib_chain_edit.c \
 		jlib_list2.c \
+		jlib_list.c \
 		ft_bzero.c \
 		ft_memalloc.c \
 		ft_memccpy.c \
@@ -59,25 +65,23 @@ SRC =	ft_atoi.c \
 		ft_putstr.c \
 		ft_putstr_fd.c \
 		ft_puttab.c \
-		converter.c \
-		converter_d.c \
 		converter2.c \
 		converter3.c \
+		converter.c \
+		converter_d.c \
 		handle_converter.c \
 		set_flags.c \
 		set_flags_lh.c \
 		t_data.c \
 		t_flag_data.c \
-		flag.c \
 		flag2.c \
 		flag3.c \
+		flag.c \
 		handle_flag.c \
-		ft_str_fill.c \
-		ft_str_replace.c \
-		ft_str_toupper.c \
+		ft_changechar.c \
+		ft_delstr.c \
 		ft_strcat.c \
 		ft_strcchr.c \
-		ft_strschr.c \
 		ft_strclr.c \
 		ft_strcmp.c \
 		ft_strcpy.c \
@@ -85,6 +89,7 @@ SRC =	ft_atoi.c \
 		ft_strdel.c \
 		ft_strdup.c \
 		ft_strequ.c \
+		ft_str_fill.c \
 		ft_striter.c \
 		ft_striteri.c \
 		ft_strjoin.c \
@@ -100,26 +105,27 @@ SRC =	ft_atoi.c \
 		ft_strnew_c.c \
 		ft_strnstr.c \
 		ft_strrchr.c \
+		ft_str_replace.c \
+		ft_strschr.c \
 		ft_strsplit.c \
+		ft_strsplit_emptyspace.c \
+		ft_strsplit_first.c \
 		ft_strstr.c \
 		ft_strsub.c \
+		ft_str_toupper.c \
 		ft_strtrim.c \
 		ft_target_strncat.c \
 		ft_tolower.c \
 		ft_toupper.c \
 		error_exit.c \
+		file_parser.c \
 		ft_get_leaks.c \
-		ft_tab_free.c \
-		ft_tab_len.c \
-		jlib_chain.c \
-		jlib_chain_acces.c \
-		jlib_chain_edit.c \
 		t_address.c \
 		t_address_print.c \
-		ft_delstr.c \
-		ft_isonlycompose.c \
-		ft_convert_int_str.c \
+		ft_tab_free.c \
+		ft_tab_len.c \
 		jlib_vector.c
+
 
 ##Transform and place every .o from SRC
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
@@ -135,7 +141,7 @@ CFLAGS =	-Wall -Werror -Wextra
 IFLAGS =	$(foreach dir, $(INC_DIR), -I$(dir))
 
 ##Create the flags to link every libraries needed by this program (-L and -l)
-LFLAGS =
+LFLAGS = -lm -ldl
 
 ##Define the compiler to use
 CC=			gcc

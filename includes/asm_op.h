@@ -74,12 +74,12 @@ typedef char	t_arg_type;
 typedef struct s_base_op
 {
 	char *name;
-	char nb_token;
+	unsigned char nb_token;
 	char availible_token[3];
 	char id;
-	int delay;
+	size_t delay;
 	char* msg;
-	char carry_modifier;
+	BOOL carry_modifier;
 	BOOL octal_size_modifier;
 }				t_base_op;
 

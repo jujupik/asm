@@ -76,7 +76,7 @@ void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 void				error_exit(int nb, char *str);
-int					ft_tab_len(char **tab);
+size_t				ft_tab_len(char **tab);
 void				ft_tab_free(char **tab);
 char**				ft_tab_new(size_t len);
 char**				ft_tabdup(char** tab);
@@ -108,7 +108,7 @@ void				ft_str_replace_front(char *s2, char **s1);
 void				ft_str_replace_back(char **s1, char *s2);
 void				ft_delchar(char** str, char* to_remove);
 void				ft_delchar_begin(char **str, char *to_remove);
-
+void				ft_changechar(char *str, char *target, char c);
 BOOL				is_only_compose(char *src, char c);
 BOOL				is_str_only_compose(char* src, char* delim);
 BOOL				ft_strisdigit(char* str);
