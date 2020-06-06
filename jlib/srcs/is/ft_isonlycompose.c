@@ -33,7 +33,6 @@ BOOL			is_str_only_compose(char *src, char *delim)
 	i = 0;
 	while (src[i])
 	{
-		//ft_printf("src : [%d], delim : [%d]", src[i], delim);
 		if (ft_strcchr(delim, src[i]) == FALSE)
 			return (FALSE);
 		i++;

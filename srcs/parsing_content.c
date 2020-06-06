@@ -55,9 +55,9 @@ PARAM_TYPE check_type_param(char* param)
 		return (T_ERROR);
 	if (param[0] == 'r')
 		return (T_REG);
-	else if (param[0] == '%')
+	else if (param[0] == DIRECT_CHAR)
 	{
-		if (param[1] == ':')
+		if (param[1] == LABEL_CHAR)
 			return (param[2] != '\0' ? T_LAB : T_ERROR);
 		else
 			return (ft_strisdigit(&(param[1])) == TRUE ? T_DIR : T_ERROR);
@@ -80,7 +80,10 @@ t_action_param parse_parameter(t_base_op*action, char *content, int token_index)
 	type = check_type_param(content);
 
 	if ((type & action->availible_token[token_index]) != type)
+	{
+		ft_printf("Line [%s]\n", content);
 		error_exit(1, "Bad token type");
+	}
 
 	if (type == T_ERROR)
 		error_exit(1, "Syntax error");
@@ -122,7 +125,7 @@ char **parse_tab_param(char **tab)
 	{
 		if (tab[i] != NULL)
 		{
-			if (tab[i][0] == '#' || found == TRUE)
+			if (tab[i][0] == COMMENT_CHAR || found == TRUE)
 			{
 				found = TRUE;
 				result[i] = NULL;
@@ -155,7 +158,7 @@ t_operation* parse_action(char **tab_label, int index)
 	else
 	{
 		ft_changechar(tab_action[1], "#", '\0');
-		tab_param = ft_strsplit(tab_action[1], ',');
+		tab_param = ft_strsplit(tab_action[1], SEPARATOR_CHAR);
 		tab_param = parse_tab_param(tab_param);
 		if (ft_tab_len(tab_param) != action->nb_token)
 			error_exit(1, "Syntax error");
@@ -176,6 +179,8 @@ t_label* parse_label(char *content, t_operation *ope)
 {
 	t_label* result;
 
+	if (is_str_only_compose(content, LABEL_CHARS) == FALSE)
+		error_exit(1, "Bad label name");
 	result = malloc_label(ope, content);
 	return (result);
 }
@@ -311,6 +316,16 @@ BOOL parse_label_name(t_list* ope_list, t_list* label_list)
 	return (TRUE);
 }
 
+size_t count_char_before(char *str, char c)
+{
+	size_t result;
+
+	result = 0;
+	while (str[result] == c)
+		result++;
+	return (result);
+}
+
 BOOL parse_content(t_player* player, int input_fd)
 {
 	t_operation* ope;
@@ -322,10 +337,10 @@ BOOL parse_content(t_player* player, int input_fd)
 	while (get_next_line(input_fd, &line) > 0)
 	{
 		ft_changechar(line, "\t\v\n\r\f", ' ');
-		if (ft_strlen(line) > 0 && line[0] != '#' && is_only_compose(line, ' ') == FALSE)
+		if (ft_strlen(line) > 0 && line[count_char_before(line, ' ')] != '#' && is_only_compose(line, ' ') == FALSE)
 		{
-			tab_label = ft_strsplit_first(line, ':');
-			if (ft_tab_len(tab_label) == 2 && tab_label[0][ft_strlen(tab_label[0]) - 1] != '%')
+			tab_label = ft_strsplit_first(line, LABEL_CHAR);
+			if (ft_tab_len(tab_label) == 2 && tab_label[0][ft_strlen(tab_label[0]) - 1] != DIRECT_CHAR)
 			{
 				ope = parse_action(tab_label, 1);
 				label = parse_label(tab_label[0], ope);

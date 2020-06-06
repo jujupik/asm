@@ -18,7 +18,7 @@ BOOL analyse_variable(int fd, char *name, char **variable, char **variable_cmd)
 	(*variable) = NULL;
 	(*variable_cmd) = NULL;
 	tab = NULL;
-	while ((*variable) == NULL || (*variable)[0] == '#')
+	while ((*variable) == NULL || (*variable)[0] == COMMENT_CHAR || ft_strlen(*variable) == 0)
 	{
 		if (get_next_line(fd, variable) <= 0)
 			return (free_variable(tab, (*variable), (*variable_cmd)));
@@ -48,9 +48,9 @@ t_header* parse_header(int fd)
 	char *comment;
 	char *comment_cmd;
 
-	if (analyse_variable(fd, ".name", &name, &name_cmd) == FALSE)
+	if (analyse_variable(fd, NAME_CMD_STRING, &name, &name_cmd) == FALSE)
 		error_exit(1, "Trouble around name descriptor");
-	if (analyse_variable(fd, ".comment", &comment, &comment_cmd) == FALSE)
+	if (analyse_variable(fd, COMMENT_CMD_STRING, &comment, &comment_cmd) == FALSE)
 		error_exit(1, "Trouble around comment descriptor");
 	if (ft_strcmp(name_cmd, ".name") == FALSE)
 		error_exit(1, "Bad name command");
