@@ -2,10 +2,10 @@
 
 void	ft_delchar(char **str, char *to_remove)
 {
-	size_t i;
-	size_t j;
-	char *result;
-	char *tmp;
+	size_t	i;
+	size_t	j;
+	char	*result;
+	char	*tmp;
 
 	if (str == NULL || *str == NULL)
 		return ;
@@ -27,15 +27,15 @@ void	ft_delchar(char **str, char *to_remove)
 	*str = result;
 }
 
-void				ft_delchar_begin(char** str, char* to_remove)
+void	ft_delchar_begin(char **str, char *to_remove)
 {
-	BOOL find;
-	size_t i;
-	size_t j;
-	char* result;
+	BOOL	find;
+	size_t	i;
+	size_t	j;
+	char	*result;
 
 	if (str == NULL || *str == NULL)
-		return;
+		return ;
 	find = FALSE;
 	i = 0;
 	j = 0;

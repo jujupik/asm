@@ -1,9 +1,9 @@
 #include "jlib.h"
 
-char *convert_int_str(long long value, size_t len)
+char	*convert_int_str(long long value, size_t len)
 {
-	size_t i;
-	char *result;
+	size_t	i;
+	char	*result;
 
 	result = ft_strnew(len);
 	i = 0;
@@ -16,10 +16,10 @@ char *convert_int_str(long long value, size_t len)
 	return (result);
 }
 
-void write_int(long long value, size_t len)
+void	write_int(long long value, size_t len)
 {
-	size_t i;
-	char *tmp;
+	size_t	i;
+	char	*tmp;
 
 	tmp = convert_int_str(value, len);
 	i = 0;

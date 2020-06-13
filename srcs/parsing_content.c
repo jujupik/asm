@@ -1,6 +1,6 @@
 #include "asm.h"
 
-t_base_op actions[17] = {
+t_base_op	actions[17] = {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0},
 	{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0},
@@ -26,12 +26,7 @@ t_base_op actions[17] = {
 	{NULL, 0, {0}, 0, 0, NULL, 0, 0}
 };
 
-int need_octal_encoding[9] =
-{
-	2, 3, 6, 7, 8, 10, 11, 13, 14
-};
-
-t_base_op* find_action_in_tab(char *name)
+t_base_op		*find_action_in_tab(char *name)
 {
 	size_t i;
 	size_t delta;
@@ -49,7 +44,7 @@ t_base_op* find_action_in_tab(char *name)
 	return (NULL);
 }
 
-PARAM_TYPE check_type_param(char* param)
+PARAM_TYPE		check_type_param(char *param)
 {
 	if (param == NULL)
 		return (T_ERROR);
@@ -68,23 +63,21 @@ PARAM_TYPE check_type_param(char* param)
 		return (T_ERROR);
 }
 
-t_action_param parse_parameter(t_base_op*action, char *content, int token_index)
+t_action_param	parse_parameter(t_base_op *action, char *content, int tok_index)
 {
-	PARAM_TYPE type;
-	int value;
-	char* label_name;
+	PARAM_TYPE	type;
+	int			value;
+	char		*label_name;
 
 	ft_delchar(&(content), " \t\v\n\r");
 	value = 0;
 	label_name = NULL;
 	type = check_type_param(content);
-
-	if ((type & action->availible_token[token_index]) != type)
+	if ((type & action->availible_token[tok_index]) != type)
 	{
 		ft_printf("Line [%s]\n", content);
 		error_exit(1, "Bad token type");
 	}
-
 	if (type == T_ERROR)
 		error_exit(1, "Syntax error");
 	else if (type == T_REG)
@@ -94,13 +87,9 @@ t_action_param parse_parameter(t_base_op*action, char *content, int token_index)
 			error_exit(1, "Bad register number");
 	}
 	else if (type == T_IND)
-	{
 		value = ft_atoi(content);
-	}
 	else if (type == T_DIR)
-	{
 		value = ft_atoi(&(content[1]));
-	}
 	else if (type == T_LAB)
 	{
 		value = -1;
@@ -108,15 +97,14 @@ t_action_param parse_parameter(t_base_op*action, char *content, int token_index)
 	}
 	else
 		error_exit(1, "Syntax error");
-
 	return (create_action_param(type, value, label_name));
 }
 
-char **parse_tab_param(char **tab)
+char			**parse_tab_param(char **tab)
 {
-	char **result;
-	size_t i;
-	BOOL found;
+	char	**result;
+	size_t	i;
+	BOOL	found;
 
 	result = ft_tab_new(ft_tab_len(tab));
 	i = 0;
@@ -140,14 +128,39 @@ char **parse_tab_param(char **tab)
 	return (result);
 }
 
-t_operation* parse_action(char **tab_label, int index)
+t_action_param	parse_action_else(char **tab_action, char **tab_param, t_base_op *action)
 {
-	size_t i = 0;
-	t_base_op* action = NULL;
-	char** tab_action = NULL;
-	char** tab_param = NULL;
-	t_action_param action_params[3];
+	size_t			i;
+	t_action_param	action_params[3];
 
+	i = 0;
+	ft_changechar(tab_action[1], "#", '\0');
+	tab_param = ft_strsplit(tab_action[1], SEPARATOR_CHAR);
+	tab_param = parse_tab_param(tab_param);
+	if (ft_tab_len(tab_param) != action->nb_token)
+		error_exit(1, "Syntax error");
+	i = 0;
+	while (i < 3)
+	{
+		if (i < ft_tab_len(tab_param))
+			action_params[i] = parse_parameter(action, tab_param[i], i);
+		else
+			action_params[i] = create_action_param(T_ERROR, 0, NULL);
+		i++;
+	}
+	return (*action_params);
+}
+
+t_operation		*parse_action(char **tab_label, int index)
+{
+	t_base_op		*action;
+	char			**tab_action;
+	char			**tab_param;
+	t_action_param	action_params[3];
+
+	action = NULL;
+	tab_action = NULL;
+	tab_param = NULL;
 	tab_action = ft_strsplit_first(tab_label[index], ' ');
 	action = find_action_in_tab(tab_action[0]);
 	if (action == NULL)
@@ -157,27 +170,14 @@ t_operation* parse_action(char **tab_label, int index)
 	}
 	else
 	{
-		ft_changechar(tab_action[1], "#", '\0');
-		tab_param = ft_strsplit(tab_action[1], SEPARATOR_CHAR);
-		tab_param = parse_tab_param(tab_param);
-		if (ft_tab_len(tab_param) != action->nb_token)
-			error_exit(1, "Syntax error");
-		i = 0;
-		while (i < 3)
-		{
-			if (i < ft_tab_len(tab_param))
-				action_params[i] = parse_parameter(action, tab_param[i], i);
-			else
-				action_params[i] = create_action_param(T_ERROR, 0, NULL);
-			i++;
-		}
+		*action_params = parse_action_else(tab_action, tab_param, action);
 	}
 	return (malloc_operation(action, action_params));
 }
 
-t_label* parse_label(char *content, t_operation *ope)
+t_label			*parse_label(char *content, t_operation *ope)
 {
-	t_label* result;
+	t_label	*result;
 
 	if (is_str_only_compose(content, LABEL_CHARS) == FALSE)
 		error_exit(1, "Bad label name");
@@ -185,78 +185,11 @@ t_label* parse_label(char *content, t_operation *ope)
 	return (result);
 }
 
-void parse_operation_size(t_operation* ope)
+void		parse_champion_size(t_header *header, t_list *ope_list)
 {
-	size_t i;
-	size_t delta;
-	size_t result;
-	char encode = 0;
-	t_action_param* param;
-
-	result = 1;
-	delta = 0;
-	i = 0;
-	while (i < 9)
-	{
-		if (need_octal_encoding[i] == ope->action->id)
-			delta = 1;
-		i++;
-	}
-	i = 0;
-	while (i < 3)
-	{
-		param = &(ope->params[i]);
-		if (param->type == T_REG)
-		{
-			if (delta == 1)
-			{
-				encode += 0b01;
-				encode = encode << 2;
-			}
-			result += REG_SIZE;
-		}
-		else if (param->type == T_DIR || param->type == T_LAB)
-		{
-			if (delta == 1)
-			{
-				encode += 0b10;
-				encode = encode << 2;
-			}
-			if (ope->action->octal_size_modifier == TRUE)
-				result += 2;
-			else
-				result += DIR_SIZE;
-		}
-		else if (param->type == T_IND)
-		{
-			if (delta == 1)
-			{
-				encode += 0b11;
-				encode = encode << 2;
-			}
-			encode = encode << 2;
-			result += IND_SIZE;
-		}
-		else
-		{
-			if (delta == 1)
-			{
-				encode += 0b00;
-				encode = encode << 2;
-			}
-			result += 0;
-		}
-		i++;
-	}
-	ope->size = result + delta;
-	ope->encodage = encode;
-}
-
-void parse_champion_size(t_header *header, t_list *ope_list)
-{
-	size_t total_size;
-	size_t i;
-	t_operation* ope;
+	size_t		total_size;
+	size_t		i;
+	t_operation	*ope;
 
 	total_size = 0;
 	i = 0;
@@ -271,10 +204,10 @@ void parse_champion_size(t_header *header, t_list *ope_list)
 	header->size = total_size;
 }
 
-t_label* find_label(char* name, t_list* label_list)
+t_label		*find_label(char *name, t_list *label_list)
 {
-	size_t i;
-	t_label* label;
+	size_t		i;
+	t_label		*label;
 
 	i = 0;
 	while (i < label_list->size)
@@ -287,12 +220,12 @@ t_label* find_label(char* name, t_list* label_list)
 	return (NULL);
 }
 
-BOOL parse_label_name(t_list* ope_list, t_list* label_list)
+BOOL		parse_label_name(t_list *ope_list, t_list *label_list)
 {
-	t_operation* ope;
-	t_label* label;
-	size_t i;
-	size_t j;
+	t_operation		*ope;
+	t_label			*label;
+	size_t			i;
+	size_t			j;
 
 	i = 0;
 	while (i < ope_list->size)
@@ -316,9 +249,9 @@ BOOL parse_label_name(t_list* ope_list, t_list* label_list)
 	return (TRUE);
 }
 
-size_t count_char_before(char *str, char c)
+size_t		count_char_before(char *str, char c)
 {
-	size_t result;
+	size_t	result;
 
 	result = 0;
 	while (str[result] == c)
@@ -326,33 +259,45 @@ size_t count_char_before(char *str, char c)
 	return (result);
 }
 
-BOOL parse_content(t_player* player, int input_fd)
+void	parse_content_norm(t_player *player, char **tab_label, char *line)
 {
-	t_operation* ope;
-	t_label* label;
-	char** tab_label = NULL;
-	char* line = NULL;
-	int nb_line = 0;
+	t_label		*label;
+	t_operation	*ope;
 
+	tab_label = ft_strsplit_first(line, LABEL_CHAR);
+	if (ft_tab_len(tab_label) == 2 && \
+		tab_label[0][ft_strlen(tab_label[0]) - 1] != DIRECT_CHAR)
+	{
+		ope = parse_action(tab_label, 1);
+		label = parse_label(tab_label[0], ope);
+		list_push_back(player->ope_list, ope);
+		list_push_back(player->label_list, label);
+	}
+	else if (ft_tab_len(tab_label) == 1 || ft_tab_len(tab_label) == 2)
+	{
+		list_push_back(player->ope_list, parse_action(&line, 0));
+	}
+	else
+		error_exit(1, "Syntax error");
+}
+
+BOOL	parse_content(t_player *player, int input_fd)
+{
+	char		**tab_label;
+	char		*line;
+	int			nb_line;
+
+	tab_label = NULL;
+	line = NULL;
+	nb_line = 0;
 	while (get_next_line(input_fd, &line) > 0)
 	{
 		ft_changechar(line, "\t\v\n\r\f", ' ');
-		if (ft_strlen(line) > 0 && line[count_char_before(line, ' ')] != '#' && is_only_compose(line, ' ') == FALSE)
+		if (ft_strlen(line) > 0 && line[count_char_before(line, ' ')] != '#' \
+				&& is_only_compose(line, ' ') == FALSE)
 		{
 			tab_label = ft_strsplit_first(line, LABEL_CHAR);
-			if (ft_tab_len(tab_label) == 2 && tab_label[0][ft_strlen(tab_label[0]) - 1] != DIRECT_CHAR)
-			{
-				ope = parse_action(tab_label, 1);
-				label = parse_label(tab_label[0], ope);
-				list_push_back(player->ope_list, ope);
-				list_push_back(player->label_list, label);
-			}
-			else if (ft_tab_len(tab_label) == 1 || ft_tab_len(tab_label) == 2)
-			{
-				list_push_back(player->ope_list, parse_action(&line, 0));
-			}
-			else
-				error_exit(1, "Syntax error");
+			parse_content_norm(player, tab_label, line);
 			nb_line++;
 		}
 	}

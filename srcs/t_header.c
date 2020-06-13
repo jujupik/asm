@@ -1,6 +1,6 @@
 #include "asm.h"
 
-t_header create_header(char *p_name, char *p_comment, size_t p_size)
+t_header	create_header(char *p_name, char *p_comment, size_t p_size)
 {
 	t_header	result;
 
@@ -17,7 +17,7 @@ t_header create_header(char *p_name, char *p_comment, size_t p_size)
 	return (result);
 }
 
-t_header *malloc_header(char *p_name, char *p_comment, size_t p_size)
+t_header	*malloc_header(char *p_name, char *p_comment, size_t p_size)
 {
 	t_header	*result;
 
@@ -28,28 +28,28 @@ t_header *malloc_header(char *p_name, char *p_comment, size_t p_size)
 	return (result);
 }
 
-void destroy_header(t_header to_destroy)
+void		destroy_header(t_header to_destroy)
 {
 	(void)to_destroy;
 	ft_printf("To do : destroy_header");
 }
 
-void free_header(t_header *to_free)
+void		free_header(t_header *to_free)
 {
 	destroy_header(*to_free);
 	free(to_free);
 }
 
-void print_header(t_header* header)
+void		print_header(t_header *header)
 {
 	ft_printf("Magic : 0x%X\nSize : %u\nName : %s\nComment : %s\n",
 		header->magic_num, header->size, header->name, header->comment);
 }
 
-static void print_binary_parameter(char* data, size_t len)
+static void	print_binary_parameter(char *data, size_t len)
 {
-	size_t i;
-	size_t size;
+	size_t	i;
+	size_t	size;
 
 	size = ft_strlen(data);
 	i = 0;
@@ -63,7 +63,7 @@ static void print_binary_parameter(char* data, size_t len)
 	}
 }
 
-void print_binary_header(t_header* header)
+void		print_binary_header(t_header *header)
 {
 	ft_printf("%x", header->magic_num);
 	print_binary_parameter(header->name, PROG_NAME_LENGTH);
@@ -72,9 +72,9 @@ void print_binary_header(t_header* header)
 	ft_printf("%lx", 0);
 }
 
-static void print_parameter(int fd, char *data, size_t len)
+static void	print_parameter(int fd, char *data, size_t len)
 {
-	size_t i;
+	size_t	i;
 
 	ft_fprintf(fd, "%s", data);
 	i = ft_strlen(data);
@@ -85,7 +85,7 @@ static void print_parameter(int fd, char *data, size_t len)
 	}
 }
 
-void save_header(int fd, t_header *header)
+void		save_header(int fd, t_header *header)
 {
 	ft_fprintf(fd, "%^d", header->magic_num);
 	print_parameter(fd, header->name, PROG_NAME_LENGTH);

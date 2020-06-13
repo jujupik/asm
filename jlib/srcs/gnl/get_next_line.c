@@ -12,11 +12,12 @@
 
 #include "jlib.h"
 
-char	*g_saved[MAX_FD];
+char		*g_saved[MAX_FD];
 
-int			open_fd(char* path, int mode)
+int			open_fd(char *path, int mode)
 {
-	int fd;
+	int	fd;
+
 	fd = open(path, mode, 777);
 	if (g_saved[fd] != NULL)
 	{
@@ -27,7 +28,7 @@ int			open_fd(char* path, int mode)
 	return (fd);
 }
 
-void			close_fd(int fd)
+void		close_fd(int fd)
 {
 	if (fd < 0 || fd >= MAX_FD)
 		error_exit(fd, "Invalid fd to close");
@@ -40,9 +41,10 @@ void			close_fd(int fd)
 	close(fd);
 }
 
-static int		get_next_line_result(char **line, char **saved)
+static int	get_next_line_result(char **line, char **saved)
 {
-	int size;
+	int	size;
+
 	if (*line != NULL)
 		free(*line);
 	if (ft_strlen(*saved) == 0)
@@ -55,7 +57,7 @@ static int		get_next_line_result(char **line, char **saved)
 	return (ft_strlen(*line) + size);
 }
 
-int				get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	int			result;
 	char		*tmp;

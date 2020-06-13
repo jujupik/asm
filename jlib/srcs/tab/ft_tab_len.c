@@ -12,7 +12,7 @@
 
 #include "jlib.h"
 
-size_t			ft_tab_len(char **tab)
+size_t		ft_tab_len(char **tab)
 {
 	size_t		i;
 

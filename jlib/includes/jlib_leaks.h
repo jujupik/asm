@@ -30,8 +30,8 @@ void				free_address(t_address *to_free);
 void				print_address(t_address *address);
 void				address_get_trace(t_address *address);
 
-//void				*malloc(size_t size);
-//void				free(void *to_free);
-//void				ft_get_leaks(char *msg);
+void				*malloc(size_t size);
+void				free(void *to_free);
+void				ft_get_leaks(char *msg);
 
 #endif

@@ -44,9 +44,9 @@ static int	ft_str_len(char *s, char c, int i)
 
 static char	**ft_tab(char *s, char c)
 {
-	char** tab;
-	int	count;
-	int i;
+	char	**tab;
+	int		count;
+	int		i;
 
 	if (!s)
 		return (NULL);
@@ -62,12 +62,25 @@ static char	**ft_tab(char *s, char c)
 	return (tab);
 }
 
+static char	*tmp_funct(int *i, int *j, char c, char *s)
+{
+	char	*result;
+	int		len;
+
+	len = ft_str_len(s, c, *i);
+	if (!(result = ft_strnew(len + 1)))
+		return (NULL);
+	ft_strncpy(result, (char*)(s + *i), len);
+	*i = *i + len;
+	(*j)++;
+	return (result);
+}
+
 char		**ft_strsplit_emptyspace(char *s, char c)
 {
 	char	**tab;
 	int		i;
 	int		j;
-	int		len;
 
 	if (s == NULL)
 		return (NULL);
@@ -78,14 +91,7 @@ char		**ft_strsplit_emptyspace(char *s, char c)
 	while (s[i])
 	{
 		if (s[i] != c)
-		{
-			len = ft_str_len(s, c, i);
-			if (!(tab[j] = ft_strnew(len + 1)))
-				return (NULL);
-			ft_strncpy(tab[j], (char*)(s + i), len);
-			i = i + len;
-			j++;
-		}
+			tab[j] = tmp_funct(&i, &j, c, s);
 		else if (s[i] == c && s[i + 1] == c)
 		{
 			if (!(tab[j] = ft_strnew(0)))

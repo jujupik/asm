@@ -1,8 +1,8 @@
 #include "asm.h"
 
-BOOL check_validity(char *path)
+BOOL	check_validity(char *path)
 {
-	size_t len;
+	size_t	len;
 
 	len = ft_strlen(path);
 	if (path[len - 1] != 's' || path[len - 2] != '.')
@@ -12,7 +12,7 @@ BOOL check_validity(char *path)
 
 int		open_src_file(char *path)
 {
-	int fd;
+	int	fd;
 
 	if (check_validity(path) == FALSE)
 		error_exit(1, "Bad file given");
@@ -24,7 +24,7 @@ int		open_src_file(char *path)
 
 int		open_output_file(char *path)
 {
-	char *output_path;
+	char	*output_path;
 
 	path[ft_strlen(path) - 2] = '\0';
 	output_path = ft_strnew(ft_strlen(path) + 4);
@@ -32,25 +32,24 @@ int		open_output_file(char *path)
 	ft_strcat(output_path, ".cor");
 	if (check_file_exist(output_path) == FILE_EXIST)
 		remove_file(output_path);
-
 	return (open_fd(output_path, O_WRONLY | O_CREAT | O_TRUNC));
 }
 
-int main(int argc, char**argv)
+int		main(int argc, char **argv)
 {
-	int input_fd = 0;
-	int output_fd = 0;
-	char *path;
-	t_player* player;
+	int			input_fd;
+	int			output_fd;
+	char		*path;
+	t_player	*player;
 
+	input_fd = 0;
+	output_fd = 0;
 	if (argc == 1)
 		error_exit(1, "No file to parse");
 	if (argc > 2)
 		error_exit(1, "Too many files to parse");
-
 	path = ft_strdup(argv[1]);
 	input_fd = open_src_file(path);
-
 	player = malloc_player();
 	player->header = parse_header(input_fd);
 	if (parse_content(player, input_fd) == FALSE)

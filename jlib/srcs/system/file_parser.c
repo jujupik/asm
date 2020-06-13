@@ -1,9 +1,8 @@
 #include "jlib.h"
 
-
-FILE_STATE check_file_exist(char* path)
+FILE_STATE	check_file_exist(char *path)
 {
-	int access_value;
+	int	access_value;
 
 	access_value = access(path, 0);
 	if (access_value == 0)
@@ -14,13 +13,14 @@ FILE_STATE check_file_exist(char* path)
 		return (FILE_ERROR);
 }
 
-void remove_file(char* path)
+void		remove_file(char *path)
 {
-	int error_type;
+	int	error_type;
 
 	error_type = remove(path);
 	if (error_type == EACCES)
-		error_exit(1, "Access denied: the file's permission setting does not allow specified access.");
+		error_exit(1,
+			"Access denied: file's permission don't allow specified access");
 	else if (error_type == ENOENT)
 		error_exit(1, "File name or path not found.");
 	else if (error_type == EINVAL)

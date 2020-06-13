@@ -14,7 +14,7 @@
 # define JLIB_BASICS_H
 
 int					get_next_line(int fd, char **line);
-int					open_fd(char* path, int mode);
+int					open_fd(char *path, int mode);
 void				close_fd(int fd);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t len);
@@ -78,8 +78,8 @@ void				ft_putnbr_fd(int n, int fd);
 void				error_exit(int nb, char *str);
 size_t				ft_tab_len(char **tab);
 void				ft_tab_free(char **tab);
-char**				ft_tab_new(size_t len);
-char**				ft_tabdup(char** tab);
+char				**ft_tab_new(size_t len);
+char				**ft_tabdup(char **tab);
 int					*ft_intparse_tab(char **tab);
 int					**ft_inttab_new(int size);
 int					*ft_int_str_new(int size);
@@ -106,18 +106,17 @@ char				*ft_uitoa_base(unsigned long long n, int base);
 char				*ft_uitoa(unsigned long long n);
 void				ft_str_replace_front(char *s2, char **s1);
 void				ft_str_replace_back(char **s1, char *s2);
-void				ft_delchar(char** str, char* to_remove);
+void				ft_delchar(char **str, char *to_remove);
 void				ft_delchar_begin(char **str, char *to_remove);
 void				ft_changechar(char *str, char *target, char c);
 BOOL				is_only_compose(char *src, char c);
-BOOL				is_str_only_compose(char* src, char* delim);
-BOOL				ft_strisdigit(char* str);
+BOOL				is_str_only_compose(char *src, char *delim);
+BOOL				ft_strisdigit(char *str);
 char				*convert_int_str(long long value, size_t len);
 void				write_int(long long value, size_t len);
-char**				ft_strsplit_emptyspace(char* s, char c);
-char**				ft_strsplit_first(char* s, char c);
-
-FILE_STATE			check_file_exist(char* path);
-void				remove_file(char* path);
+char				**ft_strsplit_emptyspace(char *s, char c);
+char				**ft_strsplit_first(char *s, char c);
+FILE_STATE			check_file_exist(char *path);
+void				remove_file(char *path);
 
 #endif

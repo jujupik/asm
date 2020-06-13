@@ -1,10 +1,10 @@
 #include "jlib.h"
 
-char** ft_strsplit_first(char* s, char c)
+char	**ft_strsplit_first(char *s, char c)
 {
-	char** tab;
-	size_t i;
-	BOOL found;
+	char	**tab;
+	size_t	i;
+	BOOL	found;
 
 	if (ft_strcchr(s, c) == FALSE)
 	{

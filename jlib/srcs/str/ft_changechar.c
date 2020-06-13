@@ -1,9 +1,8 @@
 #include "jlib.h"
 
-
-void ft_changechar(char *str, char *target, char c)
+void	ft_changechar(char *str, char *target, char c)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (str[i] != '\0')

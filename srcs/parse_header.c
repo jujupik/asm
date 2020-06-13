@@ -1,6 +1,6 @@
 #include "asm.h"
 
-static BOOL free_variable(char **tab, char *tmp, char *tmp_cmd)
+static BOOL	free_variable(char **tab, char *tmp, char *tmp_cmd)
 {
 	if (tab != NULL)
 		ft_tab_free(tab);
@@ -11,18 +11,27 @@ static BOOL free_variable(char **tab, char *tmp, char *tmp_cmd)
 	return (FALSE);
 }
 
-BOOL analyse_variable(int fd, char *name, char **variable, char **variable_cmd)
+BOOL		empty_line(char **variable, int fd)
+{
+	while ((*variable) == NULL || (*variable)[0] == COMMENT_CHAR ||
+			ft_strlen(*variable) == 0)
+	{
+		if (get_next_line(fd, variable) <= 0)
+			return (TRUE);
+	}
+	return (FALSE);
+}
+
+BOOL		analyse_variable(int fd, char *name, char **variable,
+				char **variable_cmd)
 {
 	char **tab;
 
 	(*variable) = NULL;
 	(*variable_cmd) = NULL;
 	tab = NULL;
-	while ((*variable) == NULL || (*variable)[0] == COMMENT_CHAR || ft_strlen(*variable) == 0)
-	{
-		if (get_next_line(fd, variable) <= 0)
-			return (free_variable(tab, (*variable), (*variable_cmd)));
-	}
+	if (empty_line(variable, fd) == TRUE)
+		return (free_variable(tab, (*variable), (*variable_cmd)));
 	ft_str_replace_back(variable, "\n");
 	tab = ft_strsplit((*variable), '\"');
 	free((*variable));
@@ -41,7 +50,7 @@ BOOL analyse_variable(int fd, char *name, char **variable, char **variable_cmd)
 	return (TRUE);
 }
 
-t_header* parse_header(int fd)
+t_header	*parse_header(int fd)
 {
 	char *name;
 	char *name_cmd;
@@ -50,7 +59,8 @@ t_header* parse_header(int fd)
 
 	if (analyse_variable(fd, NAME_CMD_STRING, &name, &name_cmd) == FALSE)
 		error_exit(1, "Trouble around name descriptor");
-	if (analyse_variable(fd, COMMENT_CMD_STRING, &comment, &comment_cmd) == FALSE)
+	if (analyse_variable(fd, COMMENT_CMD_STRING, &comment,
+			&comment_cmd) == FALSE)
 		error_exit(1, "Trouble around comment descriptor");
 	if (ft_strcmp(name_cmd, ".name") == FALSE)
 		error_exit(1, "Bad name command");
