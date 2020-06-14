@@ -1,11 +1,11 @@
 #include "asm.h"
 
-int	need_octal_encoding[9] =
+int	g_need_octal_encoding[9] =
 {
 	2, 3, 6, 7, 8, 10, 11, 13, 14
 };
 
-size_t  parse_octal_encoding(t_operation *ope)
+size_t	parse_octal_encoding(t_operation *ope)
 {
 	size_t	i;
 	size_t	delta;
@@ -14,7 +14,7 @@ size_t  parse_octal_encoding(t_operation *ope)
 	i = 0;
 	while (i < 9)
 	{
-		if (need_octal_encoding[i] == ope->action->id)
+		if (g_need_octal_encoding[i] == ope->action->id)
 			delta = 1;
 		i++;
 	}
@@ -39,7 +39,7 @@ void	parse_operation_size(t_operation *ope)
 			tmp_funct_reg(&encode, delta, &result);
 		else if (param->type == T_DIR || param->type == T_LAB)
 			tmp_funct_dir(&encode, delta, &result, \
-                        ope->action->octal_size_modifier);
+							ope->action->octal_size_modifier);
 		else if (param->type == T_IND)
 			tmp_funct_ind(&encode, delta, &result);
 		else
