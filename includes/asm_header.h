@@ -22,7 +22,7 @@ void				save_header(int fd, t_header *header);
 
 typedef struct		s_action_param
 {
-	char			type;//T_DIR ou T_IND ou T_REG ou T_LAB
+	char			type;
 	int				value;
 	char			*label_name;
 }					t_action_param;
