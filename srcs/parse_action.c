@@ -72,12 +72,14 @@ char			**parse_tab_param(char **tab)
 	return (result);
 }
 
-t_action_param	parse_action_else(char **tab_action, char **tab_param, \
-										t_base_op *action)
+static void		parse_action_else(t_action_param *action_params, \
+	char **tab_action, t_base_op *action)
 {
+	char			**tab_param;
 	size_t			i;
-	t_action_param	action_params[3];
 
+	if (ft_tab_len(tab_action) < 2)
+		error_exit(1, "Syntax error");
 	i = 0;
 	ft_changechar(tab_action[1], "#", '\0');
 	tab_param = ft_strsplit(tab_action[1], SEPARATOR_CHAR);
@@ -85,7 +87,7 @@ t_action_param	parse_action_else(char **tab_action, char **tab_param, \
 	if (ft_tab_len(tab_param) != action->nb_token)
 		error_exit(1, "Syntax error");
 	i = 0;
-	while (i < 3)
+	while (i < 3 && i < action->nb_token)
 	{
 		if (i < ft_tab_len(tab_param))
 			action_params[i] = parse_parameter(action, tab_param[i], i);
@@ -93,20 +95,17 @@ t_action_param	parse_action_else(char **tab_action, char **tab_param, \
 			action_params[i] = create_action_param(T_ERROR, 0, NULL);
 		i++;
 	}
-	return (*action_params);
 }
 
-t_operation		*parse_action(char **tab_label, int index)
+t_operation		*parse_action(char *operation_line)
 {
 	t_base_op		*action;
 	char			**tab_action;
-	char			**tab_param;
 	t_action_param	action_params[3];
 
 	action = NULL;
 	tab_action = NULL;
-	tab_param = NULL;
-	tab_action = ft_strsplit_first(tab_label[index], ' ');
+	tab_action = ft_strsplit_first(operation_line, ' ');
 	action = find_action_in_tab(tab_action[0]);
 	if (action == NULL)
 	{
@@ -115,7 +114,7 @@ t_operation		*parse_action(char **tab_label, int index)
 	}
 	else
 	{
-		*action_params = parse_action_else(tab_action, tab_param, action);
+		parse_action_else(&(action_params[0]), tab_action, action);
 	}
 	return (malloc_operation(action, action_params));
 }

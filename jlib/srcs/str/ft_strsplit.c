@@ -69,12 +69,12 @@ char		**ft_strsplit(char *s, char c)
 	{
 		while (s[i] && s[i] == c)
 			i++;
-		if (s[i])
+		if (s[i] && s[i] != c)
 		{
 			len = ft_str_len(s, c, i);
-			if (!(tab[j] = (char *)ft_memalloc(sizeof(char) * (len + 1))))
+			if (!(tab[j] = ft_strnew(len)))
 				return (NULL);
-			ft_strncpy(tab[j], (char *)(s + i), len);
+			ft_strncpy(tab[j], &(s[i]), len);
 			i = i + len;
 			j++;
 		}

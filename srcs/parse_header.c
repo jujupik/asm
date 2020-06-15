@@ -11,15 +11,25 @@ static BOOL	free_variable(char **tab, char *tmp, char *tmp_cmd)
 	return (FALSE);
 }
 
-BOOL		empty_line(char **variable, int fd)
+BOOL		read_variable(char **variable, int fd)
 {
-	while ((*variable) == NULL || (*variable)[0] == COMMENT_CHAR ||
-			ft_strlen(*variable) == 0)
+	char *tmp;
+	char *tmp2;
+
+	tmp = *variable;
+	tmp2 = NULL;
+	while (tmp == NULL || tmp[0] == COMMENT_CHAR ||
+			ft_strncchr(tmp, '\"') < 2)
 	{
-		if (get_next_line(fd, variable) <= 0)
-			return (TRUE);
+		if (get_next_line(fd, &tmp2) <= 0)
+			return (FALSE);
+		ft_str_replace_back(&tmp2, "\n");
+		ft_str_replace_back(&tmp, tmp2);
 	}
-	return (FALSE);
+	*variable = tmp;
+	if (ft_strncchr(*variable, '\"') != 2)
+		return (FALSE);
+	return (TRUE);
 }
 
 BOOL		analyse_variable(int fd, char *name, char **variable,
@@ -30,10 +40,9 @@ BOOL		analyse_variable(int fd, char *name, char **variable,
 	(*variable) = NULL;
 	(*variable_cmd) = NULL;
 	tab = NULL;
-	if (empty_line(variable, fd) == TRUE)
+	if (read_variable(variable, fd) == FALSE)
 		return (free_variable(tab, (*variable), (*variable_cmd)));
-	ft_str_replace_back(variable, "\n");
-	tab = ft_strsplit((*variable), '\"');
+	tab = ft_strsplit_emptyspace((*variable), '\"');
 	free((*variable));
 	if (ft_tab_len(tab) == 1 || ft_tab_len(tab) > 3 || (ft_tab_len(tab) == 3 &&
 		is_str_only_compose(tab[2], " \t\v\n\r") == FALSE))

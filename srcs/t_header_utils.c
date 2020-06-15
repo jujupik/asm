@@ -47,9 +47,9 @@ static void	print_parameter(int fd, char *data, size_t len)
 
 void		save_header(int fd, t_header *header)
 {
-	ft_fprintf(fd, "%^d", header->magic_num);
+	ft_fprintf(fd, "%-^d", header->magic_num);
 	print_parameter(fd, header->name, PROG_NAME_LENGTH);
-	ft_fprintf(fd, "%^ld", header->size);
+	ft_fprintf(fd, "%-8^d", header->size);
 	print_parameter(fd, header->comment, COMMENT_LENGTH);
 	ft_fprintf(fd, "%^d", 0);
 }

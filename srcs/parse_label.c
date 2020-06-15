@@ -40,13 +40,15 @@ BOOL	parse_label_name(t_list *ope_list, t_list *label_list)
 		j = 0;
 		while (j < 3)
 		{
-			if (ope->params[j].type == T_LAB)
+			if (ope->params[j].type == T_LAB ||
+				ope->params[j].type == T_LAB_IND)
 			{
 				label = find_label(ope->params[j].label_name, label_list);
 				if (label == NULL)
+				{
 					return (FALSE);
-				else
-					ope->params[j].value = label->ope->pos - ope->pos;
+				}
+				ope->params[j].value = label->ope->pos - ope->pos;
 			}
 			j++;
 		}

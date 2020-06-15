@@ -18,7 +18,7 @@ int			open_fd(char *path, int mode)
 {
 	int	fd;
 
-	fd = open(path, mode, 777);
+	fd = open(path, mode, S_IRWXU);
 	if (g_saved[fd] != NULL)
 	{
 		free(g_saved[fd]);

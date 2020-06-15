@@ -9,7 +9,7 @@ char	*convert_int_str(long long value, size_t len)
 	i = 0;
 	while (i < len)
 	{
-		result[i] = ((char *)(&(value)))[len - i - 1];
+		result[len - i - 1] = ((char *)(&(value)))[len - i - 1];
 		i++;
 	}
 	result[i] = '\0';

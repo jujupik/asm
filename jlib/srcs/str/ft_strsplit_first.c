@@ -16,7 +16,7 @@ char	**ft_strsplit_first(char *s, char c)
 		tab = ft_tab_new(3);
 		i = 0;
 		found = FALSE;
-		while (s[i] != c || found == FALSE)
+		while ((s[i] != '\0' && s[i] != c) || found == FALSE)
 		{
 			if (s[i] != c)
 				found = TRUE;

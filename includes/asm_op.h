@@ -13,8 +13,8 @@
 #ifndef ASM_OP_H
 # define ASM_OP_H
 # define IND_SIZE				2
-# define REG_SIZE				4
-# define DIR_SIZE				REG_SIZE
+# define REG_SIZE				1
+# define DIR_SIZE				4
 # define REG_CODE				1
 # define DIR_CODE				2
 # define IND_CODE				3
@@ -38,7 +38,8 @@
 # define PARAM_TYPE char
 # define T_REG					1
 # define T_DIR					10
-# define T_IND					4
+# define T_IND					12
+# define T_LAB_IND				4
 # define T_LAB					2
 # define T_ERROR				-1
 # define PROG_NAME_LENGTH		128
@@ -55,7 +56,7 @@ typedef struct		s_base_op
 	char			id;
 	size_t			delay;
 	char			*msg;
-	BOOL			carry_modifier;
+	BOOL			need_octal;
 	BOOL			octal_size_modifier;
 }					t_base_op;
 

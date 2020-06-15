@@ -56,7 +56,9 @@ int		main(int argc, char **argv)
 		error_exit(1, "Error in file : Label inexistant");
 	output_fd = open_output_file(path);
 	save_player(output_fd, player);
+	ft_printf("Writing output program to %s.cor\n", path);
 	close_fd(output_fd);
 	close_fd(input_fd);
+
 	return (0);
 }

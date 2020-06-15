@@ -39,8 +39,8 @@ typedef struct		s_operation
 	t_base_op		*action;
 	char			encodage;
 	t_action_param	params[3];
-	size_t			pos;
-	size_t			size;
+	int				pos;
+	int				size;
 }					t_operation;
 
 t_operation			create_operation(t_base_op *p_action,

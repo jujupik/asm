@@ -57,30 +57,46 @@ static void				converter_d_simple(t_data *data, t_flag_data *flag_data)
 	free(str);
 }
 
+static void print_hat_int(t_data *data, char *str, size_t len, BOOL minus)
+{
+	size_t i;
+
+	if (minus == TRUE)
+	{
+		i = len;
+		while (i > 0)
+		{
+			add_char_to_buffer(data, str[i - 1]);
+			i--;
+		}
+	}
+	else
+	{
+		i = 0;
+		while (i < len)
+		{
+			add_char_to_buffer(data, str[i]);
+			i++;
+		}
+	}
+
+
+}
+
 static void				converter_d_hat(t_data *data, t_flag_data *flag_data)
 {
 	char	*tmp;
 	size_t	len;
 	size_t	i;
 
+	handle_wildcard(data, flag_data);
 	i = (int)(handle_lh(data, flag_data));
-	if (flag_data->h_value == 2)
-		len = 1;
-	else if (flag_data->h_value == 1)
-		len = 2;
-	else if (flag_data->l_value == 2)
-		len = 16;
-	else if (flag_data->l_value == 1)
-		len = 8;
+	if (flag_data->padding != 0)
+		len = flag_data->padding;
 	else
 		len = 4;
 	tmp = convert_int_str(i, len);
-	i = 0;
-	while (i < len)
-	{
-		add_char_to_buffer(data, tmp[i]);
-		i++;
-	}
+	print_hat_int(data, tmp, len, flag_data->minus);
 	free(tmp);
 }
 

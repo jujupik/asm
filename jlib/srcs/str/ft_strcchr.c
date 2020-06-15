@@ -12,18 +12,25 @@
 
 #include "jlib.h"
 
-int			ft_strcchr(char *str, char c)
+int			ft_strncchr(char *str, char c)
 {
 	int i;
+	int result;
 
+	result = 0;
 	if (str == NULL)
 		return (-1);
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == c)
-			return (TRUE);
+			result++;
 		i++;
 	}
-	return (FALSE);
+	return (result);
+}
+
+BOOL			ft_strcchr(char *str, char c)
+{
+	return (ft_strncchr(str, c) >= 1 ? TRUE : FALSE);
 }

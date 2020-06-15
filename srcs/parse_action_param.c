@@ -13,6 +13,8 @@ PARAM_TYPE		check_type_param(char *param)
 		else
 			return (ft_strisdigit(&(param[1])) == TRUE ? T_DIR : T_ERROR);
 	}
+	else if (param[0] == LABEL_CHAR)
+		return (param[1] != '\0' ? T_LAB_IND : T_ERROR);
 	else if (ft_strisdigit(param) == TRUE)
 		return (T_IND);
 	else
@@ -40,7 +42,10 @@ int				parse_parameter_lab(char *content, char **label_name)
 	int			value;
 
 	value = -1;
-	*label_name = &(content[2]);
+	if (content[0] == DIRECT_CHAR)
+		*label_name = ft_strdup(&(content[2]));
+	else if (content[0] == LABEL_CHAR)
+		*label_name = ft_strdup(&(content[1]));
 	return (value);
 }
 
@@ -64,7 +69,7 @@ t_action_param	parse_parameter(t_base_op *action, char *content, int tok_index)
 		value = ft_atoi(content);
 	else if (type == T_DIR)
 		value = ft_atoi(&(content[1]));
-	else if (type == T_LAB)
+	else if (type == T_LAB || type == T_LAB_IND)
 		value = parse_parameter_lab(content, &label_name);
 	else
 		error_exit(1, "Syntax error");

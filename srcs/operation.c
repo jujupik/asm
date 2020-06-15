@@ -8,6 +8,7 @@ t_operation	create_operation(t_base_op *p_action, t_action_param *p_param)
 	result.action = p_action;
 	result.size = 0;
 	result.encodage = 0;
+	result.pos = 0;
 	i = 0;
 	while (i < 3)
 	{

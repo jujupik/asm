@@ -27,7 +27,6 @@ void	tmp_funct_dir(char *encode, size_t delta, size_t *result, BOOL octal)
 void	tmp_funct_ind(char *encode, size_t delta, size_t *result)
 {
 	set_encode_info(encode, delta, 0b11);
-	*encode = *encode << 2;
 	*result += IND_SIZE;
 }
 
