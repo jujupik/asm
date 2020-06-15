@@ -6,13 +6,13 @@
 /*   By: jrouchon <jrouchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/26 17:01:55 by jrouchon          #+#    #+#             */
-/*   Updated: 2020/03/08 21:30:58 by jrouchon         ###   ########.fr       */
+/*   Updated: 2020/06/15 19:45:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "jlib.h"
 
-static long long		converter_d_annexe(t_flag_data *flag_data, long long i,
+static long long	converter_d_annexe(t_flag_data *flag_data, long long i,
 							char **str, BOOL *neg)
 {
 	if (i < 0)
@@ -28,7 +28,7 @@ static long long		converter_d_annexe(t_flag_data *flag_data, long long i,
 	return (i);
 }
 
-static void				converter_d_simple(t_data *data, t_flag_data *flag_data)
+static void			converter_d_simple(t_data *data, t_flag_data *flag_data)
 {
 	long long	i;
 	BOOL		neg;
@@ -57,9 +57,10 @@ static void				converter_d_simple(t_data *data, t_flag_data *flag_data)
 	free(str);
 }
 
-static void print_hat_int(t_data *data, char *str, size_t len, BOOL minus)
+static void			print_hat_int(t_data *data, char *str, size_t len, \
+						BOOL minus)
 {
-	size_t i;
+	size_t	i;
 
 	if (minus == TRUE)
 	{
@@ -79,11 +80,9 @@ static void print_hat_int(t_data *data, char *str, size_t len, BOOL minus)
 			i++;
 		}
 	}
-
-
 }
 
-static void				converter_d_hat(t_data *data, t_flag_data *flag_data)
+static void			converter_d_hat(t_data *data, t_flag_data *flag_data)
 {
 	char	*tmp;
 	size_t	len;
@@ -100,7 +99,7 @@ static void				converter_d_hat(t_data *data, t_flag_data *flag_data)
 	free(tmp);
 }
 
-void					converter_d(t_data *data, t_flag_data *flag_data)
+void				converter_d(t_data *data, t_flag_data *flag_data)
 {
 	if (flag_data->hat == FALSE)
 		converter_d_simple(data, flag_data);

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_label.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/15 19:41:50 by user42            #+#    #+#             */
+/*   Updated: 2020/06/15 19:53:04 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
 
-t_label	*parse_label(char *content, t_operation *ope)
+t_label		*parse_label(char *content, t_operation *ope)
 {
 	t_label	*result;
 
@@ -10,7 +22,7 @@ t_label	*parse_label(char *content, t_operation *ope)
 	return (result);
 }
 
-t_label	*find_label(char *name, t_list *label_list)
+t_label		*find_label(char *name, t_list *label_list)
 {
 	size_t		i;
 	t_label		*label;
@@ -26,7 +38,8 @@ t_label	*find_label(char *name, t_list *label_list)
 	return (NULL);
 }
 
-static BOOL handle_label_value(t_header *header, t_operation *ope, t_list *label_list)
+static BOOL	handle_label_value(t_header *header, t_operation *ope, \
+		t_list *label_list)
 {
 	t_label			*label;
 	size_t			j;
@@ -53,7 +66,8 @@ static BOOL handle_label_value(t_header *header, t_operation *ope, t_list *label
 	return (TRUE);
 }
 
-BOOL	parse_label_name(t_header *header, t_list *ope_list, t_list *label_list)
+BOOL		parse_label_name(t_header *header, t_list *ope_list, \
+				t_list *label_list)
 {
 	t_operation		*ope;
 	size_t			i;

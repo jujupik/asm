@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   do_thing_op.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/15 19:41:19 by user42            #+#    #+#             */
+/*   Updated: 2020/06/15 19:55:54 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
 
-static void place_ope_on_null(t_player *player, t_operation *ope)
+static void	place_ope_on_null(t_player *player, t_operation *ope)
 {
 	t_label		**label;
 	size_t		i;
@@ -15,7 +27,7 @@ static void place_ope_on_null(t_player *player, t_operation *ope)
 	}
 }
 
-void do_thing_ope(t_player *player, char *string_ope,
+void		do_thing_ope(t_player *player, char *string_ope,
 		char *string_label)
 {
 	t_label		*label;

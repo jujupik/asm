@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   label.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/15 19:41:22 by user42            #+#    #+#             */
+/*   Updated: 2020/06/15 19:56:19 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
 
 t_label	create_label(t_operation *p_ope, char *p_name)
@@ -40,5 +52,4 @@ void	print_label(t_label *to_print)
 			to_print->ope->pos, to_print->ope->action->name);
 		print_operation(to_print->ope);
 	}
-
 }

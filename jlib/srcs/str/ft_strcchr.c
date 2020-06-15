@@ -6,7 +6,7 @@
 /*   By: jrouchon <jrouchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 14:31:51 by jrouchon          #+#    #+#             */
-/*   Updated: 2020/03/08 14:57:08 by jrouchon         ###   ########.fr       */
+/*   Updated: 2020/06/15 19:45:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int			ft_strncchr(char *str, char c)
 {
-	int i;
-	int result;
+	int		i;
+	int		result;
 
 	result = 0;
 	if (str == NULL)
@@ -30,7 +30,7 @@ int			ft_strncchr(char *str, char c)
 	return (result);
 }
 
-BOOL			ft_strcchr(char *str, char c)
+BOOL		ft_strcchr(char *str, char c)
 {
 	return (ft_strncchr(str, c) >= 1 ? TRUE : FALSE);
 }

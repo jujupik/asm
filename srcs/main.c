@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/15 19:41:26 by user42            #+#    #+#             */
+/*   Updated: 2020/06/15 19:41:26 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
 
 BOOL	check_validity(char *path)
@@ -59,6 +71,5 @@ int		main(int argc, char **argv)
 	ft_printf("Writing output program to %s.cor\n", path);
 	close_fd(output_fd);
 	close_fd(input_fd);
-
 	return (0);
 }
