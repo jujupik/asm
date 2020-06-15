@@ -14,7 +14,8 @@ void			print_binary_header(t_header *header);
 void			save_header(int fd, t_header *header);
 t_label			*parse_label(char *content, t_operation *ope);
 t_label			*find_label(char *name, t_list *label_list);
-BOOL			parse_label_name(t_list *ope_list, t_list *label_list);
+BOOL			parse_label_name(t_header *header, t_list *ope_list, \
+					t_list *label_list);
 PARAM_TYPE		check_type_param(char *param);
 t_action_param	parse_parameter(t_base_op *action, char *content,
 					int tok_index);
@@ -30,5 +31,11 @@ void			tmp_funct_dir(char *encode, size_t delta, size_t *result,
 void			tmp_funct_ind(char *encode, size_t delta, size_t *result);
 void			tmp_funct_other(char *encode, size_t delta, size_t *result);
 char			*param_type_str(t_arg_type type);
-
+size_t			count_char_before(char *str, char c);
+void			parse_champion_size(t_header *header, t_list *ope_list);
+void			compute_line_percent(char **line);
+void			parse_content_norm(t_player *player, char **tab_label, \
+					char *line);
+void			do_thing_ope(t_player *player, char *string_ope,
+					char *string_label);
 #endif

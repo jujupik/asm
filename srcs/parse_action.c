@@ -82,10 +82,14 @@ static void		parse_action_else(t_action_param *action_params, \
 		error_exit(1, "Syntax error");
 	i = 0;
 	ft_changechar(tab_action[1], "#", '\0');
+	ft_changechar(tab_action[1], ";", '\0');
 	tab_param = ft_strsplit(tab_action[1], SEPARATOR_CHAR);
 	tab_param = parse_tab_param(tab_param);
 	if (ft_tab_len(tab_param) != action->nb_token)
 		error_exit(1, "Syntax error");
+	action_params[0] = create_action_param(T_ERROR, 0, NULL);
+	action_params[1] = create_action_param(T_ERROR, 0, NULL);
+	action_params[2] = create_action_param(T_ERROR, 0, NULL);
 	i = 0;
 	while (i < 3 && i < action->nb_token)
 	{

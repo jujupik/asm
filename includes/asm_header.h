@@ -8,7 +8,7 @@ typedef struct		s_header
 	size_t			magic_num;
 	char			name[PROG_NAME_LENGTH];
 	char			comment[COMMENT_LENGTH];
-	size_t			size;
+	int				size;
 }					t_header;
 
 t_header			create_header(char *p_name, char *p_comment, size_t p_size);

@@ -16,6 +16,8 @@ char	*ft_strcpy(char *dest, char *src)
 {
 	int i;
 
+	if (src == NULL || dest == NULL)
+		return (NULL);
 	i = 0;
 	while (src[i] != '\0')
 	{

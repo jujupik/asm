@@ -18,9 +18,14 @@ BOOL		read_variable(char **variable, int fd)
 
 	tmp = *variable;
 	tmp2 = NULL;
-	while (tmp == NULL || tmp[0] == COMMENT_CHAR ||
-			ft_strncchr(tmp, '\"') < 2)
+	while (tmp == NULL || is_only_compose(tmp, '\n') == TRUE ||
+			tmp[0] == COMMENT_CHAR || ft_strncchr(tmp, '\"') < 2)
 	{
+		if (tmp != NULL && tmp[0] == COMMENT_CHAR)
+		{
+			free(tmp);
+			tmp = NULL;
+		}
 		if (get_next_line(fd, &tmp2) <= 0)
 			return (FALSE);
 		ft_str_replace_back(&tmp2, "\n");

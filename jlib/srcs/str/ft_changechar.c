@@ -4,6 +4,8 @@ void	ft_changechar(char *str, char *target, char c)
 {
 	size_t	i;
 
+	if (str == NULL)
+		return ;
 	i = 0;
 	while (str[i] != '\0')
 	{

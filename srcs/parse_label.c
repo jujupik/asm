@@ -26,32 +26,44 @@ t_label	*find_label(char *name, t_list *label_list)
 	return (NULL);
 }
 
-BOOL	parse_label_name(t_list *ope_list, t_list *label_list)
+static BOOL handle_label_value(t_header *header, t_operation *ope, t_list *label_list)
+{
+	t_label			*label;
+	size_t			j;
+
+	j = 0;
+	while (j < 3 && j < ope->action->nb_token)
+	{
+		if (ope->params[j].type == T_LAB ||
+			ope->params[j].type == T_LAB_IND)
+		{
+			label = find_label(ope->params[j].label_name, label_list);
+			if (label == NULL)
+			{
+				print_operation(ope);
+				return (FALSE);
+			}
+			if (label->ope == NULL)
+				ope->params[j].value = header->size - ope->pos;
+			else
+				ope->params[j].value = label->ope->pos - ope->pos;
+		}
+		j++;
+	}
+	return (TRUE);
+}
+
+BOOL	parse_label_name(t_header *header, t_list *ope_list, t_list *label_list)
 {
 	t_operation		*ope;
-	t_label			*label;
 	size_t			i;
-	size_t			j;
 
 	i = 0;
 	while (i < ope_list->size)
 	{
 		ope = list_at(ope_list, i);
-		j = 0;
-		while (j < 3)
-		{
-			if (ope->params[j].type == T_LAB ||
-				ope->params[j].type == T_LAB_IND)
-			{
-				label = find_label(ope->params[j].label_name, label_list);
-				if (label == NULL)
-				{
-					return (FALSE);
-				}
-				ope->params[j].value = label->ope->pos - ope->pos;
-			}
-			j++;
-		}
+		if (handle_label_value(header, ope, label_list) == FALSE)
+			return (FALSE);
 		i++;
 	}
 	return (TRUE);

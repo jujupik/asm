@@ -32,7 +32,13 @@ void	free_label(t_label *to_free)
 
 void	print_label(t_label *to_print)
 {
-	ft_printf("[%s] | [%d] -> [%s]", to_print->name,
+	if (to_print->ope == NULL)
+		ft_printf("[%s] | [NULL]", to_print->name);
+	else
+	{
+		ft_printf("[%s] | [%d] -> [%s]", to_print->name,
 			to_print->ope->pos, to_print->ope->action->name);
-	print_operation(to_print->ope);
+		print_operation(to_print->ope);
+	}
+
 }

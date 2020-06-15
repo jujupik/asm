@@ -19,6 +19,7 @@ void	parse_operation_size(t_operation *ope)
 	result = 1;
 	delta = parse_octal_encoding(ope);
 	i = 0;
+	encode = 0;
 	while (i < 3)
 	{
 		param = &(ope->params[i]);
