@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:41:22 by user42            #+#    #+#             */
-/*   Updated: 2020/06/15 19:56:19 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/16 01:42:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_label	create_label(t_operation *p_ope, char *p_name)
 	t_label	result;
 
 	result.ope = p_ope;
-	result.name = p_name;
+	result.name = ft_strdup(p_name);
 	return (result);
 }
 

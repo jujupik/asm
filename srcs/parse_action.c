@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:41:41 by user42            #+#    #+#             */
-/*   Updated: 2020/06/15 19:41:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/16 02:09:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,29 +73,24 @@ char			**parse_tab_param(char **tab)
 			{
 				found = TRUE;
 				result[i] = NULL;
-				free(tab[i]);
 			}
 			else
-				result[i] = tab[i];
+				result[i] = ft_strdup(tab[i]);
 		}
 		i++;
 	}
-	free(tab);
+	ft_tab_free(tab);
 	return (result);
 }
 
 static void		parse_action_else(t_action_param *action_params, \
-	char **tab_action, t_base_op *action)
+	char *action_line, t_base_op *action)
 {
 	char			**tab_param;
 	size_t			i;
 
-	if (ft_tab_len(tab_action) < 2)
-		error_exit(1, "Syntax error");
-	i = 0;
-	ft_changechar(tab_action[1], "#", '\0');
-	ft_changechar(tab_action[1], ";", '\0');
-	tab_param = ft_strsplit(tab_action[1], SEPARATOR_CHAR);
+	ft_changechar(action_line, "#;", '\0');
+	tab_param = ft_strsplit(action_line, SEPARATOR_CHAR);
 	tab_param = parse_tab_param(tab_param);
 	if (ft_tab_len(tab_param) != action->nb_token)
 		error_exit(1, "Syntax error");
@@ -111,6 +106,7 @@ static void		parse_action_else(t_action_param *action_params, \
 			action_params[i] = create_action_param(T_ERROR, 0, NULL);
 		i++;
 	}
+	ft_tab_free(tab_param);
 }
 
 t_operation		*parse_action(char *operation_line)
@@ -120,17 +116,19 @@ t_operation		*parse_action(char *operation_line)
 	t_action_param	action_params[3];
 
 	action = NULL;
-	tab_action = NULL;
 	tab_action = ft_strsplit_first(operation_line, ' ');
 	action = find_action_in_tab(tab_action[0]);
 	if (action == NULL)
 	{
-		ft_printf("Line [%s]\n", tab_action[0]);
+		ft_printf("Line [%s]\n", operation_line);
 		error_exit(1, "Invalid action");
 	}
 	else
 	{
-		parse_action_else(&(action_params[0]), tab_action, action);
+		if (ft_tab_len(tab_action) < 2)
+			error_exit(1, "Syntax error");
+		parse_action_else(&(action_params[0]), tab_action[1], action);
 	}
+	ft_tab_free(tab_action);
 	return (malloc_operation(action, action_params));
 }

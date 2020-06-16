@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:42:50 by user42            #+#    #+#             */
-/*   Updated: 2020/06/15 19:42:55 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/16 01:57:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define IDX_MOD				512
 # define CHAMP_MAX_SIZE			682
 # define COMMENT_CHAR			'#'
+# define COMMENT_CHAR2			';'
 # define LABEL_CHAR				':'
 # define DIRECT_CHAR			'%'
 # define SEPARATOR_CHAR			','

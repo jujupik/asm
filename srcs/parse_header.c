@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:41:46 by user42            #+#    #+#             */
-/*   Updated: 2020/06/15 19:41:46 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/16 01:57:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ BOOL		read_variable(char **variable, int fd)
 	char *tmp2;
 
 	tmp = *variable;
-	tmp2 = NULL;
-	while (tmp == NULL || is_only_compose(tmp, '\n') == TRUE ||
-			tmp[0] == COMMENT_CHAR || ft_strncchr(tmp, '\"') < 2)
+	while ((tmp == NULL || is_only_compose(tmp, '\n') == TRUE ||
+		tmp[0] == COMMENT_CHAR || tmp[0] == COMMENT_CHAR2 ||
+		ft_strncchr(tmp, '\"') < 2) && !(tmp2 = NULL))
 	{
-		if (tmp != NULL && tmp[0] == COMMENT_CHAR)
+		if (tmp != NULL && (tmp[0] == COMMENT_CHAR || tmp[0] == COMMENT_CHAR2))
 		{
 			free(tmp);
 			tmp = NULL;
@@ -42,7 +42,10 @@ BOOL		read_variable(char **variable, int fd)
 			return (FALSE);
 		ft_str_replace_back(&tmp2, "\n");
 		ft_str_replace_back(&tmp, tmp2);
+		free(tmp2);
 	}
+	if (*variable != NULL)
+		free(*variable);
 	*variable = tmp;
 	if (ft_strncchr(*variable, '\"') != 2)
 		return (FALSE);
@@ -67,21 +70,22 @@ BOOL		analyse_variable(int fd, char *name, char **variable,
 		ft_tab_free(tab);
 		return (FALSE);
 	}
-	(*variable_cmd) = tab[0];
-	(*variable) = tab[1];
+	(*variable_cmd) = ft_strdup(tab[0]);
+	(*variable) = ft_strdup(tab[1]);
 	if (ft_strschr((*variable_cmd), name) == FALSE)
 		return (free_variable(NULL, (*variable), (*variable_cmd)));
 	ft_delchar(&(*variable_cmd), " \t\v\n\r");
-	free(tab);
+	ft_tab_free(tab);
 	return (TRUE);
 }
 
 t_header	*parse_header(int fd)
 {
-	char *name;
-	char *name_cmd;
-	char *comment;
-	char *comment_cmd;
+	t_header	*header;
+	char		*name;
+	char		*name_cmd;
+	char		*comment;
+	char		*comment_cmd;
 
 	if (analyse_variable(fd, NAME_CMD_STRING, &name, &name_cmd) == FALSE)
 		error_exit(1, "Trouble around name descriptor");
@@ -94,5 +98,8 @@ t_header	*parse_header(int fd)
 		error_exit(1, "Bad comment command");
 	free(comment_cmd);
 	free(name_cmd);
-	return (malloc_header(name, comment, 0));
+	header = malloc_header(name, comment, 0);
+	free(name);
+	free(comment);
+	return (header);
 }

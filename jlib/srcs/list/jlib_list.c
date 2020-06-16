@@ -6,7 +6,7 @@
 /*   By: jrouchon <jrouchon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 18:17:38 by jrouchon          #+#    #+#             */
-/*   Updated: 2020/02/29 16:34:23 by jrouchon         ###   ########.fr       */
+/*   Updated: 2020/06/16 00:55:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,16 @@ t_list	*malloc_list(size_t p_push_size)
 void	destroy_list(t_list to_destroy, t_destroy_funct funct)
 {
 	size_t i;
-	size_t j;
 
+	i = 0;
+	while (i < to_destroy.size)
+	{
+		funct(list_at(&to_destroy, i));
+		i++;
+	}
 	i = 0;
 	while (i < to_destroy.nb_line)
 	{
-		j = 0;
-		while (j < to_destroy.push_size)
-		{
-			if (funct != NULL)
-				funct(to_destroy.content[i][j]);
-			j++;
-		}
 		free(to_destroy.content[i]);
 		i++;
 	}

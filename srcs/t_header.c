@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:42:22 by user42            #+#    #+#             */
-/*   Updated: 2020/06/15 19:42:35 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/16 00:56:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_header	*malloc_header(char *p_name, char *p_comment, size_t p_size)
 void		destroy_header(t_header to_destroy)
 {
 	(void)to_destroy;
-	ft_printf("To do : destroy_header");
 }
 
 void		free_header(t_header *to_free)
