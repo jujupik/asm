@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:42:58 by user42            #+#    #+#             */
-/*   Updated: 2020/06/15 19:42:59 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/30 02:13:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "asm_op.h"
 # include "asm_header.h"
 
+BOOL			read_variable(char **variable, int fd);
 t_header		*parse_header(int fd);
 BOOL			parse_content(t_player *player, int input_fd);
 void			call_free_operation(void *ptr);
