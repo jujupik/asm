@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:41:46 by user42            #+#    #+#             */
-/*   Updated: 2020/06/30 20:43:03 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/30 22:02:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void	free_variable(char **tab, char *tmp, char *tmp_cmd)
+BOOL		free_variable(char **tab, char *tmp, char *tmp_cmd, BOOL state)
 {
 	if (tab != NULL)
 		ft_tab_free(tab);
@@ -20,6 +20,7 @@ void	free_variable(char **tab, char *tmp, char *tmp_cmd)
 		free(tmp);
 	if (tmp_cmd != NULL)
 		free(tmp_cmd);
+	return (state);
 }
 
 void		switch_descriptor(char **tmp_cmd, char **tmp, char **variable_cmd,
@@ -37,10 +38,7 @@ BOOL		analyse_variable(int fd, char **tmp_cmd, char **tmp)
 
 	tab = NULL;
 	if (read_variable(tmp_cmd, fd) == FALSE)
-	{
-		free_variable(tab, *tmp_cmd, *tmp);
-		return (FALSE);
-	}
+		return (free_variable(tab, *tmp_cmd, *tmp, FALSE));
 	tab = ft_strsplit_emptyspace(*tmp_cmd, '\"');
 	free(*tmp_cmd);
 	if (ft_tab_len(tab) == 1 || ft_tab_len(tab) > 3 || (ft_tab_len(tab) == 3 &&
@@ -64,10 +62,7 @@ BOOL		parse_norme(int fd, char **var_cmd, char **var)
 	{
 		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[1], &var[1]);
 		if (analyse_variable(fd, &(var_cmd[0]), &(var[0])) == FALSE)
-		{
-			free_variable(NULL, var_cmd[1], var[1]);
-			return (FALSE);
-		}
+			return (free_variable(NULL, var_cmd[1], var[1], FALSE));
 		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[2], &var[2]);
 		return (TRUE);
 	}
@@ -75,18 +70,12 @@ BOOL		parse_norme(int fd, char **var_cmd, char **var)
 	{
 		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[2], &var[2]);
 		if (analyse_variable(fd, &(var_cmd[0]), &(var[0])) == FALSE)
-		{
-			free_variable(NULL, var_cmd[2], var[2]);
-			return (FALSE);
-		}
+			return (free_variable(NULL, var_cmd[2], var[2], FALSE));
 		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[1], &var[1]);
 		return (TRUE);
 	}
 	else
-	{
-		free_variable(NULL, var_cmd[0], var[0]);
-		return (FALSE);
-	}
+		return (free_variable(NULL, var_cmd[0], var[0], FALSE));
 }
 
 t_header	*parse_header(int fd)
