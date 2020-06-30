@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:41:46 by user42            #+#    #+#             */
-/*   Updated: 2020/06/30 02:14:02 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/30 20:43:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static void	free_variable(char **tab, char *tmp, char *tmp_cmd)
+void	free_variable(char **tab, char *tmp, char *tmp_cmd)
 {
 	if (tab != NULL)
 		ft_tab_free(tab);
@@ -31,7 +31,7 @@ void		switch_descriptor(char **tmp_cmd, char **tmp, char **variable_cmd,
 	*tmp = NULL;
 }
 
-void		analyse_variable(int fd, char **tmp_cmd, char **tmp)
+BOOL		analyse_variable(int fd, char **tmp_cmd, char **tmp)
 {
 	char	**tab;
 
@@ -39,7 +39,7 @@ void		analyse_variable(int fd, char **tmp_cmd, char **tmp)
 	if (read_variable(tmp_cmd, fd) == FALSE)
 	{
 		free_variable(tab, *tmp_cmd, *tmp);
-		return ;
+		return (FALSE);
 	}
 	tab = ft_strsplit_emptyspace(*tmp_cmd, '\"');
 	free(*tmp_cmd);
@@ -53,22 +53,32 @@ void		analyse_variable(int fd, char **tmp_cmd, char **tmp)
 	*tmp_cmd = ft_strdup(tab[0]);
 	ft_tab_free(tab);
 	ft_delchar(tmp_cmd, " \t\v\n\r");
+	return (TRUE);
 }
 
 BOOL		parse_norme(int fd, char **var_cmd, char **var)
 {
-	analyse_variable(fd, &(var_cmd[0]), &(var[0]));
+	if (analyse_variable(fd, &(var_cmd[0]), &(var[0])) == FALSE)
+		return (FALSE);
 	if (ft_strcmp(var_cmd[0], NAME_CMD_STRING) == TRUE)
 	{
 		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[1], &var[1]);
-		analyse_variable(fd, &var_cmd[0], &var[0]);
+		if (analyse_variable(fd, &(var_cmd[0]), &(var[0])) == FALSE)
+		{
+			free_variable(NULL, var_cmd[1], var[1]);
+			return (FALSE);
+		}
 		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[2], &var[2]);
 		return (TRUE);
 	}
 	else if (ft_strcmp(var_cmd[0], COMMENT_CMD_STRING) == TRUE)
 	{
 		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[2], &var[2]);
-		analyse_variable(fd, &var_cmd[0], &var[0]);
+		if (analyse_variable(fd, &(var_cmd[0]), &(var[0])) == FALSE)
+		{
+			free_variable(NULL, var_cmd[2], var[2]);
+			return (FALSE);
+		}
 		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[1], &var[1]);
 		return (TRUE);
 	}
@@ -88,7 +98,7 @@ t_header	*parse_header(int fd)
 	var[0] = NULL;
 	var_cmd[0] = NULL;
 	if (parse_norme(fd, var, var_cmd) == FALSE)
-		return (NULL);
+		error_exit(1, "error around header descriptor");
 	free(var_cmd[1]);
 	free(var_cmd[2]);
 	header = malloc_header(var[1], var[2], 0);
