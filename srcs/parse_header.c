@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:41:46 by user42            #+#    #+#             */
-/*   Updated: 2020/06/16 01:57:22 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/30 02:14:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static BOOL	free_variable(char **tab, char *tmp, char *tmp_cmd)
+static void	free_variable(char **tab, char *tmp, char *tmp_cmd)
 {
 	if (tab != NULL)
 		ft_tab_free(tab);
@@ -20,86 +20,79 @@ static BOOL	free_variable(char **tab, char *tmp, char *tmp_cmd)
 		free(tmp);
 	if (tmp_cmd != NULL)
 		free(tmp_cmd);
-	return (FALSE);
 }
 
-BOOL		read_variable(char **variable, int fd)
+void		switch_descriptor(char **tmp_cmd, char **tmp, char **variable_cmd,
+				char **variable)
 {
-	char *tmp;
-	char *tmp2;
-
-	tmp = *variable;
-	while ((tmp == NULL || is_only_compose(tmp, '\n') == TRUE ||
-		tmp[0] == COMMENT_CHAR || tmp[0] == COMMENT_CHAR2 ||
-		ft_strncchr(tmp, '\"') < 2) && !(tmp2 = NULL))
-	{
-		if (tmp != NULL && (tmp[0] == COMMENT_CHAR || tmp[0] == COMMENT_CHAR2))
-		{
-			free(tmp);
-			tmp = NULL;
-		}
-		if (get_next_line(fd, &tmp2) <= 0)
-			return (FALSE);
-		ft_str_replace_back(&tmp2, "\n");
-		ft_str_replace_back(&tmp, tmp2);
-		free(tmp2);
-	}
-	if (*variable != NULL)
-		free(*variable);
-	*variable = tmp;
-	if (ft_strncchr(*variable, '\"') != 2)
-		return (FALSE);
-	return (TRUE);
+	*variable = *tmp_cmd;
+	*variable_cmd = *tmp;
+	*tmp_cmd = NULL;
+	*tmp = NULL;
 }
 
-BOOL		analyse_variable(int fd, char *name, char **variable,
-				char **variable_cmd)
+void		analyse_variable(int fd, char **tmp_cmd, char **tmp)
 {
-	char **tab;
+	char	**tab;
 
-	(*variable) = NULL;
-	(*variable_cmd) = NULL;
 	tab = NULL;
-	if (read_variable(variable, fd) == FALSE)
-		return (free_variable(tab, (*variable), (*variable_cmd)));
-	tab = ft_strsplit_emptyspace((*variable), '\"');
-	free((*variable));
+	if (read_variable(tmp_cmd, fd) == FALSE)
+	{
+		free_variable(tab, *tmp_cmd, *tmp);
+		return ;
+	}
+	tab = ft_strsplit_emptyspace(*tmp_cmd, '\"');
+	free(*tmp_cmd);
 	if (ft_tab_len(tab) == 1 || ft_tab_len(tab) > 3 || (ft_tab_len(tab) == 3 &&
-		is_str_only_compose(tab[2], " \t\v\n\r") == FALSE))
+	is_str_only_compose(tab[2], " \t\v\n\r") == FALSE))
 	{
 		ft_tab_free(tab);
+		error_exit(1, "Trouble around comment or name descriptor");
+	}
+	*tmp = ft_strdup(tab[1]);
+	*tmp_cmd = ft_strdup(tab[0]);
+	ft_tab_free(tab);
+	ft_delchar(tmp_cmd, " \t\v\n\r");
+}
+
+BOOL		parse_norme(int fd, char **var_cmd, char **var)
+{
+	analyse_variable(fd, &(var_cmd[0]), &(var[0]));
+	if (ft_strcmp(var_cmd[0], NAME_CMD_STRING) == TRUE)
+	{
+		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[1], &var[1]);
+		analyse_variable(fd, &var_cmd[0], &var[0]);
+		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[2], &var[2]);
+		return (TRUE);
+	}
+	else if (ft_strcmp(var_cmd[0], COMMENT_CMD_STRING) == TRUE)
+	{
+		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[2], &var[2]);
+		analyse_variable(fd, &var_cmd[0], &var[0]);
+		switch_descriptor(&var_cmd[0], &var[0], &var_cmd[1], &var[1]);
+		return (TRUE);
+	}
+	else
+	{
+		free_variable(NULL, var_cmd[0], var[0]);
 		return (FALSE);
 	}
-	(*variable_cmd) = ft_strdup(tab[0]);
-	(*variable) = ft_strdup(tab[1]);
-	if (ft_strschr((*variable_cmd), name) == FALSE)
-		return (free_variable(NULL, (*variable), (*variable_cmd)));
-	ft_delchar(&(*variable_cmd), " \t\v\n\r");
-	ft_tab_free(tab);
-	return (TRUE);
 }
 
 t_header	*parse_header(int fd)
 {
 	t_header	*header;
-	char		*name;
-	char		*name_cmd;
-	char		*comment;
-	char		*comment_cmd;
+	char		*var[3];
+	char		*var_cmd[3];
 
-	if (analyse_variable(fd, NAME_CMD_STRING, &name, &name_cmd) == FALSE)
-		error_exit(1, "Trouble around name descriptor");
-	if (analyse_variable(fd, COMMENT_CMD_STRING, &comment,
-			&comment_cmd) == FALSE)
-		error_exit(1, "Trouble around comment descriptor");
-	if (ft_strcmp(name_cmd, ".name") == FALSE)
-		error_exit(1, "Bad name command");
-	if (ft_strcmp(comment_cmd, ".comment") == FALSE)
-		error_exit(1, "Bad comment command");
-	free(comment_cmd);
-	free(name_cmd);
-	header = malloc_header(name, comment, 0);
-	free(name);
-	free(comment);
+	var[0] = NULL;
+	var_cmd[0] = NULL;
+	if (parse_norme(fd, var, var_cmd) == FALSE)
+		return (NULL);
+	free(var_cmd[1]);
+	free(var_cmd[2]);
+	header = malloc_header(var[1], var[2], 0);
+	free(var[1]);
+	free(var[2]);
 	return (header);
 }

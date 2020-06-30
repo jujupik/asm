@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 19:42:12 by user42            #+#    #+#             */
-/*   Updated: 2020/06/16 00:55:13 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/24 02:32:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,6 @@ void	save_player(int output_fd, t_player *player)
 		save_operation(output_fd, ope);
 		i++;
 	}
+	if (player->ope_list->size == 0)
+		error_exit(1, "No operation in file");
 }
